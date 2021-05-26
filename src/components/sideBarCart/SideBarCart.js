@@ -336,27 +336,27 @@ const SideBarCart = () => {
               <Navbar.Collapse className="navbar_collapse">
                 <Nav className="mr-auto w-100 d-flex justify-content-around">
                  
-                            <NavLink to="/products/1" className="nav_link" activeClassName="selected">
+                            <NavLink to="/products/5" className="nav_link" activeClassName="selected">
                               <IconButton color="inherit" className={classes.iconButton}>
-                              <span className={ isOpen ? "link_desc_small" :"link_desc"}>Dairy and eggs</span>
+                              <span className={ isOpen ? "link_desc_small" :"link_desc"}>Dairy And Eggs</span>
                               </IconButton>
                             </NavLink>
                        
-                            <NavLink to="/products/2"  className="nav_link" activeClassName="selected" id="stepFive">
+                            <NavLink to="/products/15"  className="nav_link" activeClassName="selected" id="stepFive">
                               <IconButton color="inherit">
-                              <span  className={ isOpen ? "link_desc_small" :"link_desc"}>Meat</span>
+                              <span  className={ isOpen ? "link_desc_small" :"link_desc"}>Meat And Fish</span>
                               </IconButton>
                             </NavLink>
                  
-                            <NavLink to="/products/3" className="nav_link" activeClassName="selected">
+                            <NavLink to="/products/25" className="nav_link" activeClassName="selected">
                               <IconButton color="inherit">
-                              <span className={ isOpen ? "link_desc_small" :"link_desc"}>Fruits And Vegetables</span>
+                              <span className={ isOpen ? "link_desc_small" :"link_desc"}>Drinks And Alcohol</span>
                               </IconButton>
                             </NavLink>
                       
-                            <NavLink to="/products/4"  className="nav_link" activeClassName="selected">
+                            <NavLink to="/products/35"  className="nav_link" activeClassName="selected">
                               <IconButton color="inherit">
-                              <span className={ isOpen ? "link_desc_small" :"link_desc"}>Drinks and alcohol</span>
+                              <span className={ isOpen ? "link_desc_small" :"link_desc"}>Fruits And Vegetables</span>
                               </IconButton>
                             </NavLink>
                        

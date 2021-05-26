@@ -58,7 +58,7 @@ const useStyles = makeStyles(() => ({
       dispatch(setNoProducts(false))
       const res = await fetch(`https://shoppingappmalach.herokuapp.com/product/${id}`)
       const { products } = await res.json()
-      const response = await fetch(`https://shoppingappmalach.herokuapp.com//cart/${cart.id}`)
+      const response = await fetch(`https://shoppingappmalach.herokuapp.com/cart/${cart.id}`)
       const data  = await response.json()
       const productsArr = []
       products.forEach(product => {
