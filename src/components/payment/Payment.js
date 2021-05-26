@@ -67,7 +67,7 @@ const Payment = () => {
         .required('street is required'),
         creditNumber:Yup.string()
         .required('credit card is required')
-        // .matches(/^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/,'please enter valid credit card')
+        .matches(/^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/,'please enter valid credit card')
     }),
     onSubmit:(values,{resetForm}) => {                              
       makeOrder(values)
@@ -158,7 +158,7 @@ const Payment = () => {
    
     <Grid container className={classes.root}>
         {/* Products Table */}
-        <Grid item xs={12} sm={5}  component={Paper} square className={classes.formGrid}>
+        <Grid item xs={12} md={5}  component={Paper} square className={classes.formGrid}>
           <TableContainer component={Paper}>
             <SearchBar
             value={searched}
@@ -192,13 +192,13 @@ const Payment = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Link to='/products/1' style={{textDecoration: 'none'}}>
+      <Link to='/products/5' style={{textDecoration: 'none'}}>
         <Button variant="outlined" color="primary" className="m-3"> Continue shopping </Button>
       </Link>
     </Grid>
    
    {/* Order form */}
-    <Grid item xs={12} sm={5} component={Paper}  square className={classes.formGrid}>
+    <Grid item xs={12} md={5} component={Paper}  square className={classes.formGrid}>
       <div className={classes.paper}>
         <img src="https://thumbs.dreamstime.com/b/vegetables-shopping-cart-trolley-grocery-logo-icon-design-vector-171090350.jpg" width="100" height="100" crop="scale" alt="cart" />
         <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
