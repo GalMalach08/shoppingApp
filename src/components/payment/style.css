@@ -1,0 +1,9 @@
+.recipe_download_btn {
+    font-weight: 600;
+    font-size:18px;
+    cursor:pointer;
+}
+.total_price_p {
+    font-weight: 700;
+    font-size:20px;
+}

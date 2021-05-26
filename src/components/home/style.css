@@ -1,0 +1,13 @@
+body{
+    background:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+.mini_title {
+    font-weight: 700;
+    font-size: 15px;
+}
+.mini_content {
+    font-size:13px;
+}

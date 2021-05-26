@@ -1,0 +1,9 @@
+.modal_title {
+    display:flex;
+    justify-content: center;
+    width:100%;
+    font-weight: 600
+}
+.modal_title_content {
+    font-weight: 700;
+}
