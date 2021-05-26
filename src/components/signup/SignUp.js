@@ -143,7 +143,7 @@ const SignUp = ({ setIsAuth }) => {
           setTimeout(() => {
             setButtonDisabled(false)
             setIsAuth(true)
-            history.push('/products/1')
+            history.push('/products/5')
           } ,100)
           } else {
           setMessage(error)

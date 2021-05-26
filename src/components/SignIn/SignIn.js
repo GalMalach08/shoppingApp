@@ -176,7 +176,7 @@ const SignIn = ({ setIsAuth }) => {
     if(availableCart) {
       setIsUserAuth(true)
       localStorage.setItem('availableCart',JSON.stringify(availableCart))
-      history.push('/products/1')
+      history.push('/products/5')
     } else {
       const user = JSON.parse(localStorage.getItem('user'))
       const res = await fetch('https://shoppingappmalach.herokuapp.com/cart',{ method: 'POST',
@@ -190,7 +190,7 @@ const SignIn = ({ setIsAuth }) => {
      
       setTimeout(() => {
         setIsAuth(true)
-        history.push('/products/1')
+        history.push('/products/5')
         setButtonStartDisabled(false)
         setIsFlipped(false)
       } ,100)

@@ -7,7 +7,7 @@ const NoProduct = () => {
         <Jumbotron className="not_found_div">
         <h1>Were sorry!</h1>
         <p>
-        But there are no results matching your search... Please search again or return to <Link className="home_page_link" to="/products/1"> home page</Link>
+        But there are no results matching your search... Please search again or return to <Link className="home_page_link" to="/products/5"> home page</Link>
         </p>
       
       </Jumbotron>

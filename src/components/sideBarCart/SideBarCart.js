@@ -274,15 +274,13 @@ const SideBarCart = () => {
     body: JSON.stringify({ ...values,imageName, CategoryId })
 })
     const { product } = await res.json()
-   console.log(product)
     if(`/products/${CategoryId}` === location.pathname) {
       const cartProductsArr = products
       cartProductsArr.push({ ...product, quanity:1 })
       dispatch(setProductsState(cartProductsArr))
-      successToast('Product Added! 😀')
-      setDisableButton(false)
-
     }
+    successToast('Product Added! 😀')
+    setDisableButton(false)
   }
 
   // Change the form from update to add
