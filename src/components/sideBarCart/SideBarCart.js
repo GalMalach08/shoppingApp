@@ -11,9 +11,10 @@ import { Image } from 'cloudinary-react'
 // Components
 import Search from '../search/Search'
 // Material ui
-import { TextField, Button, Divider, Select, MenuItem, IconButton, Drawer, AppBar, Input, Toolbar, Typography, FormLabel, RadioGroup, FormControlLabel, Radio, FormControl } from '@material-ui/core'
+import { TextField, Button, Divider, Select, MenuItem, IconButton, Drawer, AppBar, Input, Collapse, Toolbar, Typography, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
+import Alert from '@material-ui/lab/Alert'
 import clsx from 'clsx'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import CloseIcon from '@material-ui/icons/Close'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
@@ -27,6 +28,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Nav, Navbar } from 'react-bootstrap'
 // Css
 import './style.css'
+import { set } from 'lodash'
 
 const drawerWidth = 300
 
@@ -104,6 +106,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SideBarCart = () => {
+  const [message, setMessage] = useState('')
+  const [openAlert, setOpenAlert] = useState(false)
   const [isDelete, setIsDelete] = useState(true)
   const [imageName, setImageName] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
@@ -269,24 +273,29 @@ const SideBarCart = () => {
     },
     body: JSON.stringify({ ...values, imageName, CategoryId, priceInKg, id: productToUpdate.id })
     })
-    const { product } = await res.json()
-    console.log(product);
+    const { product, error } = await res.json()
+    if(error) {
+      setMessage(error)
+      setOpenAlert(true)
+      setDisableButton(false) 
+    } else {
     const productsArr = products
     const findIndex = productsArr.findIndex(item => item.id === product.id) 
     if(findIndex !== -1) { // if the product excist on the page
       if(`/products/${product.CategoryId}` === location.pathname) { // if the category doesnt changed
-        productsArr[findIndex] = product 
+        productsArr[findIndex] = { ...product, image: values.image }
         dispatch(setProductsState(productsArr))
       } else {
         const newProductsArr = productsArr.filter(item => item.id !== product.id)
         dispatch(setProductsState(newProductsArr))
       }
     } else if(`/products/${product.CategoryId}` === location.pathname)  { // if the product doesnt excist on the page but needs to be after the update
-        productsArr.push(product) 
+        productsArr.push( { ...product, image: values.image }) 
         dispatch(setProductsState(productsArr))
     }
     successToast('Product Updated! 😀')
     setDisableButton(false) 
+   }
   }
 
   // Add product
@@ -295,14 +304,18 @@ const SideBarCart = () => {
     setDisableButton(true)
     const CategoryId = categoryArr.find(category => category.name === values.category).id
     const priceInKg = selectedTypeOfPrice === 'kg' ? true: false
-    // console.log({ ...values, imageName, priceInKg, CategoryId })
     const res = await fetch('https://shoppingappmalach.herokuapp.com/product',{ method: 'POST',
     headers: {
         'Content-Type':'application/json'
     },
     body: JSON.stringify({ ...values, imageName, CategoryId, priceInKg })
 })
-    const { product } = await res.json()
+    const { product, error } = await res.json()
+    if(error) {
+      setMessage(error)
+      setOpenAlert(true)
+      setDisableButton(false) 
+    } else {
     if(`/products/${CategoryId}` === location.pathname) {
       const cartProductsArr = products
       cartProductsArr.push({ ...product, image: values.image, quanity:1 })
@@ -312,6 +325,7 @@ const SideBarCart = () => {
     setDisableButton(false)
     resetForm()
     setImageName('')
+  }
   }
 
   // Change the form from update to add
@@ -498,6 +512,14 @@ const SideBarCart = () => {
                     <Button style={{display:'block', margin:'10px 0px'}} color='primary'  variant="outlined"><ImageIcon className=""/><label htmlFor="file">{imageName ? `${imageName} UPLOADED` : ' Product image'} </label></Button>
                    {props.errors.image && props.touched.image ?  <div className="error">{props.errors.image}</div>  : null} 
                 </div>
+                   {/* Error Alert */}
+                   <Collapse in={openAlert}>
+                      <Alert
+                        severity="error"
+                        action={ <IconButton color="inherit" size="small" onClick={() => setOpenAlert(false) }> <CloseIcon fontSize="inherit" /> </IconButton>}>
+                        {message}
+                      </Alert>
+                    </Collapse>
       
                   <Button
                   disabled={props.values.name && props.values.price && props.values.image && props.values.category && !disableButton ? false : true} 

@@ -1,7 +1,6 @@
 import React,{ useState, useEffect } from 'react'
 // Redux 
 import { useHistory, Link } from 'react-router-dom'
-import { setIsAdmin } from '../../store/actions'
 // Material ui components
 import { Grid, TextField, Button, Paper, Collapse, IconButton, InputAdornment, ListItemAvatar,
 Avatar, ListItem, List, ListItemText, Grow } from '@material-ui/core'
