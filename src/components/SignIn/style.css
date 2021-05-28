@@ -33,7 +33,7 @@
 }
 .gallery {
     display:flex;
-    justify-content: center;
+    justify-content: left;
     flex-wrap: wrap;
     margin: 10px;
 }

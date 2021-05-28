@@ -11,7 +11,7 @@ import { Image } from 'cloudinary-react'
 // Components
 import Search from '../search/Search'
 // Material ui
-import { TextField, Button, Divider, Select, MenuItem, IconButton, Drawer, AppBar, Input, Collapse, Toolbar, Typography, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
+import { TextField, Button, Divider, Select, MenuItem, IconButton, Drawer, Badge  , AppBar, Input, Collapse, Toolbar, Typography, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
 import Alert from '@material-ui/lab/Alert'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
@@ -371,8 +371,10 @@ const SideBarCart = () => {
           <Navbar bg="white" expand="xl" className="navbar">
               <Navbar.Brand className="navbar_brand">
               <IconButton color="inherit" onClick={handleDrawerOpen} edge="start" className={clsx(classes.menuButton, isOpen && classes.hide)}>
-            <ShoppingCartIcon />
-          </IconButton>
+                <Badge badgeContent={cartProducts.length} color="primary">
+                  <ShoppingCartIcon/>
+                </Badge>
+              </IconButton>
                 <Link to="/products/1" style={{ textDecoration: 'none'}}>
                   <Typography className={classes.title} variant="h6" noWrap> ShoppingApp </Typography>
                 </Link>
@@ -404,14 +406,16 @@ const SideBarCart = () => {
                               <span className={ isOpen ? "link_desc_small" :"link_desc"}>Fruits And Vegetables</span>
                               </IconButton>
                             </NavLink>
-                       
-                            <div className={classes.searchLink}> <Search/> </div> 
-                   
-                          <NavLink to="/logout" className="nav_link" activeClassName="selected">
+
+                            <NavLink to="/logout" className="nav_link" activeClassName="selected">
                               <IconButton color="inherit">
                                 <ExitToAppIcon/> <span className={ isOpen ? "link_desc_small" :"link_desc"}>Logout</span>
                               </IconButton>
                           </NavLink>
+                       
+                            <div className={classes.searchLink}> <Search/> </div> 
+                   
+                        
                   
                     </Nav>
               </Navbar.Collapse>

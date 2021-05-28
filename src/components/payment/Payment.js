@@ -1,7 +1,8 @@
-import React,{ useState, useEffect } from 'react'
+import React,{ useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 // Redux
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { setDrawerState } from '../../store/actions'
 // Components
 import PaymentModal from './PaymentModal'
 // Material ui
@@ -54,13 +55,15 @@ const Payment = () => {
   const [selectedDate, setSelectedDate] = useState(new Date())
   const cartItems = useSelector(state => state.products.cartProducts)
   const totalPrice = useSelector(state => state.products.totalPrice)
+  const inputRef = useRef()
   const user = JSON.parse(localStorage.getItem('user'))
   const cart = JSON.parse(localStorage.getItem('availableCart'))
+  const dispatch = useDispatch()
   const classes = useStyles()
 
   // Formik
   const formik = useFormik({
-    initialValues:{street: ' ', city: '', creditNumber: ''},
+    initialValues:{street: '', city: '', creditNumber: ''},
     validationSchema:Yup.object({
         city:Yup.string()
         .required('city is required'),
@@ -105,10 +108,12 @@ const Payment = () => {
  
   // Get all the cart products and set them in the table
   const getProducts =  () => {
+    console.log(cartItems)
     const itemsArr = []
     cartItems.forEach(item => {
       itemsArr.push(item)
     })
+    
     setRows(itemsArr)
   }
 
@@ -150,15 +155,25 @@ const Payment = () => {
     getProducts()
   }
 
+  const moveToPayment = () => {
+    inputRef.current.focus()
+  }
+
   useEffect(() => {
     getProducts()
     getOrders()
+    dispatch(setDrawerState(false))
   }, [])
+
+  useEffect(() => {
+    getProducts()
+  }, [cartItems])
   
 
   return (
-   
     <Grid container className={classes.root}>
+        {rows.length !== 0 && 
+        <>
         {/* Products Table */}
         <Grid item xs={12} md={5}  component={Paper} square className={classes.formGrid}>
           <TableContainer component={Paper}>
@@ -194,9 +209,11 @@ const Payment = () => {
           </TableBody>
         </Table>
       </TableContainer>
+    
       <Link to='/products/5' style={{textDecoration: 'none'}}>
-        <Button variant="outlined" color="primary" className="m-3"> Continue shopping </Button>
+        <Button variant="outlined" color="secondary" className="m-3"> Continue shopping </Button>
       </Link>
+      <Button variant="outlined" color="primary" className="m-3" onClick={() => moveToPayment()}> Start payment process </Button>
     </Grid>
    
    {/* Order form */}
@@ -204,10 +221,15 @@ const Payment = () => {
       <div className={classes.paper}>
         <img src="https://thumbs.dreamstime.com/b/vegetables-shopping-cart-trolley-grocery-logo-icon-design-vector-171090350.jpg" width="100" height="100" crop="scale" alt="cart" />
         <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
-          <TextField variant="outlined" margin="normal" fullWidth label="city" name="city" {...formik.getFieldProps('city')}
-             {...errorHelper(formik,'city')} onDoubleClick={() => getInputValue('city')}  helperText="Double click on the field to get the defualts values"/>
+          
+          <TextField inputRef={inputRef} variant="outlined" margin="normal" fullWidth label="city" name="city" {...formik.getFieldProps('city')}
+             {...errorHelper(formik,'city')} onDoubleClick={() => getInputValue('city')}
+             helperText={!formik.errors.city ? "Double click on the field to get the defualts values" : formik.errors.city}/>
+         
           <TextField variant="outlined" margin="normal" fullWidth label="street" name="street" {...formik.getFieldProps('street')}
-             {...errorHelper(formik,'street')} onDoubleClick={() => getInputValue('street')} helperText="Double click on the field to get the defualts values"/>
+             {...errorHelper(formik,'street')} onDoubleClick={() => getInputValue('street')} 
+             helperText={!formik.errors.street ? "Double click on the field to get the defualts values" : formik.errors.street}/>
+          
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
               disablePast 
@@ -237,7 +259,10 @@ const Payment = () => {
       </div>
     </Grid>
     <PaymentModal modalOpen={modalOpen} setModalOpen={setModalOpen} orderId={orderId} />
+    </>
+    }
   </Grid>
+    
   )
 }
 export default Payment

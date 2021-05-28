@@ -139,7 +139,6 @@ const SignIn = ({ setIsAuth }) => {
         setButtonDisabled(false)
        if(data.success){
           setIsFlipped(true)
-    
           delete data.user.password
           localStorage.setItem('user',JSON.stringify(data.user))
           if(data.user.admin) {
@@ -157,6 +156,7 @@ const SignIn = ({ setIsAuth }) => {
             setUserLastOrder(data.ordersOfUser[data.ordersOfUser.length - 1])
           } else {
             setNewUser(data.user.firstname)
+            localStorage.setItem('user',JSON.stringify({ ...data.user, newUser: true }))
           }
         }
        } else {
@@ -223,15 +223,16 @@ const SignIn = ({ setIsAuth }) => {
 
   return (
   
-   
-    <Grid container className={classes.root}>
+   <>
+    { numberOfProducts && numberOfOrders &&
+      <Grid container className={classes.root}>
         {/* Form grid */}
-        <Grid item xs={12} sm={5} md={4} component={Paper}  square className={classes.formGrid}>
+        <Grid item xs={10} md={4} component={Paper}  square className={classes.formGrid}>
         <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
           <div className={classes.paper}>
             <img src="https://thumbs.dreamstime.com/b/vegetables-shopping-cart-trolley-grocery-logo-icon-design-vector-171090350.jpg" width="100" height="100" crop="scale" alt="cart" />
-            <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
-                <TextField  variant="outlined" margin="normal" fullWidth label="user name" name="email" autoFocus {...formik.getFieldProps('username')} {...errorHelper(formik,'username')}/>
+            <form className={classes.form} onSubmit={formik.handleSubmit} autoComplete="off">
+                <TextField variant="outlined" margin="normal" fullWidth label="user name" name="email" autoFocus {...formik.getFieldProps('username')} {...errorHelper(formik,'username')}/>
                 <TextField 
                 InputProps={{
                   endAdornment: (
@@ -281,7 +282,7 @@ const SignIn = ({ setIsAuth }) => {
           </Grid>
     
           {/* Why us grid */}
-          <Grid item xs={12} sm={5} md={4} component={Paper} square className={classes.formGrid}>
+          <Grid item xs={10} md={4} component={Paper} square className={classes.formGrid}>
             <div className={classes.header}>
               <h1> Why us ? </h1>
             </div>
@@ -309,7 +310,7 @@ const SignIn = ({ setIsAuth }) => {
           </Grid>
 
           {/* Our data grid */}
-          <Grid item xs={12} sm={6} md={3} component={Paper} square className={classes.formGrid}>
+          <Grid item xs={10}  md={3} component={Paper} square className={classes.formGrid}>
             <div className={classes.header}>
               <h1> Our data </h1>
             </div>
@@ -338,6 +339,8 @@ const SignIn = ({ setIsAuth }) => {
          
         </Grid>
       </Grid>
+              }
+              </>
     )
 }
 

@@ -22,7 +22,7 @@ const Router = () => {
                     <Route path='/logout' render={() => <LogOut setIsAuth={setIsAuth} /> } />  
                     <Route path='/payment'  component={authGaurd(Payment, setIsAuth)} /> 
                     <Route path='/products/:id' component={authGaurd(Home, setIsAuth)}/>
-                    <Redirect from='*' to='/products/1' />
+                    <Redirect from='*' to='/products/5' />
                 </Switch>
             </BrowserRouter>
         </>   

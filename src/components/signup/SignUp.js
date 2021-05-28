@@ -6,7 +6,7 @@ import Carusel from '../caursel/Carusel'
 import SignUpPhoto from '../../images/signPhoto.png'
 // material ui
 import { makeStyles } from '@material-ui/core/styles'
-import { Grid, TextField, Button, Paper, Collapse, InputAdornment, Select, MenuItem, Hidden, Stepper, Step, StepLabel } from '@material-ui/core'
+import { Grid, TextField, Button, Paper, Collapse, InputAdornment, InputLabel, FormControl, Select, MenuItem, Hidden, Stepper, Step, StepLabel } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import IconButton from '@material-ui/core/IconButton'
 import Alert from '@material-ui/lab/Alert'
@@ -41,6 +41,16 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column',
       alignItems: 'center',
     },
+    select: {
+      width:'100%',
+      margin:'10px 0px'
+    },
+    selectLabel: {
+      fontSize:'20px',
+      marginLeft:'3px',
+      marginTop:'-5px'
+      
+    },
     form: {
       width: '100%',
       marginTop: theme.spacing(1),
@@ -53,7 +63,8 @@ const SignUp = ({ setIsAuth }) => {
   const [openAlert, setOpenAlert] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [chosenCity, setChosenCity] = useState('')
+  const [chosenCity, setChosenCity] = useState('Choose city')
+  const [nextDisabled, setNextDisabled] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
   const steps = ['Basic authentication details', 'Advanced authentication details']
@@ -101,6 +112,7 @@ const SignUp = ({ setIsAuth }) => {
 
   // Check if user excist
   const isUserExcist = async (username) => {
+    setNextDisabled(true)
     const response = await fetch('https://shoppingappmalach.herokuapp.com/auth/username', { 
       method: 'POST',
       headers: {
@@ -115,6 +127,7 @@ const SignUp = ({ setIsAuth }) => {
       setMessage(error)
       setOpenAlert(true)
     }
+    setNextDisabled(false)
   }
 
   // Sign up new user
@@ -130,26 +143,27 @@ const SignUp = ({ setIsAuth }) => {
         })
         const { user, error } = await response.json()
         if(user) {
-          delete user.password
-          localStorage.setItem('user', JSON.stringify({...user, newUser:true }))
-          const res = await fetch('https://shoppingappmalach.herokuapp.com/cart',{ method: 'POST',
-          headers: {
-              'Content-Type':'application/json'
-          },
-          body: JSON.stringify({ date: new Date().toLocaleDateString(), completed: false, UserId: user.id})
-          })
-          const { cart } = await res.json()
-          localStorage.setItem('availableCart',JSON.stringify(cart))
-          setTimeout(() => {
-            setButtonDisabled(false)
-            setIsAuth(true)
-            history.push('/products/5')
-          } ,100)
+          // delete user.password
+          // localStorage.setItem('user', JSON.stringify({...user, newUser:true }))
+          // const res = await fetch('https://shoppingappmalach.herokuapp.com/cart',{ method: 'POST',
+          // headers: {
+          //     'Content-Type':'application/json'
+          // },
+          // body: JSON.stringify({ date: new Date().toLocaleDateString(), completed: false, UserId: user.id})
+          // })
+          // const { cart } = await res.json()
+          // localStorage.setItem('availableCart',JSON.stringify(cart))
+          // setTimeout(() => {
+          //   setButtonDisabled(false)
+          //   setIsAuth(true)
+          //   history.push('/signin')
+          // } ,100)
+          history.push('/signin')
           } else {
           setMessage(error)
           setOpenAlert(true)
-          setButtonDisabled(false)
           }
+          setButtonDisabled(false)
         } catch (error) {
             console.error(error)
           }
@@ -214,7 +228,7 @@ const SignUp = ({ setIsAuth }) => {
                 <Button 
                 disabled={props.values.username && !props.errors.username 
                 && props.values.password &&  !props.errors.password 
-                && props.values.confirmPassword &&  !props.errors.confirmPassword  ? false : true} 
+                && props.values.confirmPassword &&  !props.errors.confirmPassword && !nextDisabled ? false : true} 
                 className="my-3" variant="contained" color="primary" size="large" fullWidth onClick={() => isUserExcist(props.values.username)}> Next </Button>
                 </>
                 }
@@ -223,22 +237,23 @@ const SignUp = ({ setIsAuth }) => {
                 <>
                   <TextField name="firstname" margin="normal" label="First name" variant="outlined" fullWidth {...props.getFieldProps('firstname')} {...errorHelper(props,'firstname')}/>
                   <TextField name="lastname" margin="normal" label="Last name" variant="outlined" fullWidth {...props.getFieldProps('lastname')} {...errorHelper(props,'lastname')}/>   
-                
-                  <Select value={chosenCity} onChange={(e) => setChosenCity(e.target.value)} name="city" fullWidth  {...props.getFieldProps('city')} {...errorHelper(props,'city')}>
-                    {cityArr.map(city => (
-                      <MenuItem key={city} value={city}>{city}</MenuItem>
-                    ))}
-                  </Select>
-
+                  <FormControl className={classes.select} style={{width:'100%'}}>
+                    <InputLabel className={classes.selectLabel}>City</InputLabel>
+                    <Select fullWidth value={chosenCity} onChange={(e) => setChosenCity(e.target.value)} name="city" fullWidth  {...props.getFieldProps('city')} {...errorHelper(props,'city')}>
+                      {cityArr.map(city => (
+                        <MenuItem key={city} value={city}>{city}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                   <TextField name="street" margin="normal" label="Street" variant="outlined" fullWidth {...props.getFieldProps('street')} {...errorHelper(props,'street')}/>   
              
                 
-                <Button 
-                disabled={props.values.firstname && props.values.lastname 
-                && props.values.city &&  props.values.street && !buttonDisabled ? false : true} 
-                className="my-3" variant="contained" color="primary" size="large" fullWidth type="submit"> Sign up </Button>
-                
-                <Button className="my-3" variant="contained" color="primary" size="large" fullWidth onClick={handleBack}> Back </Button>
+                  <Button 
+                  disabled={props.values.firstname && props.values.lastname 
+                  && props.values.city &&  props.values.street && !buttonDisabled ? false : true} 
+                  className="my-3" variant="contained" color="primary" size="large" fullWidth type="submit"> Sign up </Button>
+                  
+                  <Button className="my-3" variant="contained" color="primary" size="large" fullWidth onClick={handleBack}> Back </Button>
                 </>
                 }
              

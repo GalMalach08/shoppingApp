@@ -107,7 +107,7 @@ const Search = () => {
                 input: classes.inputInput,
               }}
             />
-            <Button onClick={findProducts}>Search</Button>
+            <Button color="primary" onClick={findProducts} disabled={!searchValue}>Search</Button>
            <IconButton onClick={() => clearInput() }> <ClearIcon fontSize="small"/> </IconButton> 
            
           </div>
