@@ -112,7 +112,7 @@ const SignIn = ({ setIsAuth }) => {
         setProductsImages([...productsImages, products[i].image]) 
       }
       setnumberOfProducts(products.length - 1)
-    }
+     }
 
     // Getting the number of orders in the store
     const getNumberOfOrders = async () => {

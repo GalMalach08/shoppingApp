@@ -46,6 +46,7 @@ const Payment = () => {
   const [modalOpen, setModalOpen] = useState(false)  
   const [orderId, setOrderId] = useState(1)  
   const [message, setMessage] = useState('')
+  const [buttonDisabled, setbuttonDisabled] = useState(false)
   const [shipmentDatesArr, setShipmentDatesArr] = useState([])
   const [openAlert, setOpenAlert] = useState(false)
   const [searched, setSearched] = useState("")
@@ -67,7 +68,7 @@ const Payment = () => {
         .required('street is required'),
         creditNumber:Yup.string()
         .required('credit card is required')
-        .matches(/^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/,'please enter valid credit card')
+        //.matches(/^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/,'please enter valid credit card')
     }),
     onSubmit:(values,{resetForm}) => {                              
       makeOrder(values)
@@ -81,6 +82,7 @@ const Payment = () => {
 
   // Make an order
   const makeOrder = async (values) => {
+    setbuttonDisabled(true)
     const orderObj = {
       ...values,
       price: totalPrice,
@@ -97,11 +99,12 @@ const Payment = () => {
         })
         const { order } = await response.json()
         setOrderId(order.id)
+        setbuttonDisabled(false)
         setModalOpen(true)
   }
  
   // Get all the cart products and set them in the table
-  const getProducts =   () => {
+  const getProducts =  () => {
     const itemsArr = []
     cartItems.forEach(item => {
       itemsArr.push(item)
@@ -130,16 +133,15 @@ const Payment = () => {
   // Disable specific dates in the date picker
   const disableDates = (date) => {
     const datesArr =  shipmentDatesArr.filter(item => item.month === date.getMonth() && item.day === date.getDate())
-    return datesArr.length > 2
+    return datesArr.length > 1 || date.getDay() === 6
   }
 
   // Get all the orders
   const getOrders = async () => {
-    const res = await fetch('https://shoppingappmalach.herokuapp.com//order')
+    const res = await fetch('https://shoppingappmalach.herokuapp.com/order')
     const { orders } = await res.json() 
     const shipmentDatesArr = []
     orders.forEach(order => shipmentDatesArr.push({ month: new Date(order.shipment_date).getMonth(), day: new Date(order.shipment_date).getDate() }))
-    console.log(shipmentDatesArr)
     setShipmentDatesArr(shipmentDatesArr)
   }
 
@@ -229,8 +231,8 @@ const Payment = () => {
               {message}
             </Alert>
           </Collapse>
-          <Button disabled={formik.values.city && formik.values.street && formik.values.creditNumber && ! formik.errors.creditNumber  ? false : true}  
-           className="my-3" variant="contained" color="primary" type="submit" fullWidth> Send order </Button>  
+          <Button disabled={formik.values.city && formik.values.street && formik.values.creditNumber && ! formik.errors.creditNumber && !buttonDisabled  ? false : true}  
+           className="my-3" variant="contained" color="primary" type="submit" fullWidth > Send order </Button>  
         </form>
       </div>
     </Grid>

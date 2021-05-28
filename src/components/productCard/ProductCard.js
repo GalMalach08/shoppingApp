@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { setProductToUpdate, setCartProducts, addCartProducts, updateTotalPrice, setProductsState, setDrawerState } from '../../store/actions'
@@ -26,10 +26,11 @@ const useStyles = makeStyles(() => ({
   }))     
   
 const ProductCard = ({ product }) => {
-    const cart = JSON.parse(localStorage.getItem('availableCart'))
+    const [addToCartButtonDisabled, setAddToCartButtonDisabled] = useState(false)
     const products = useSelector(state => state.products.data)
     const cartProducts = useSelector(state => state.products.cartProducts)
     const isAdmin = useSelector(state => state.users.isAdmin)
+    const cart = JSON.parse(localStorage.getItem('availableCart'))
     const classes = useStyles()
     const dispatch = useDispatch()
 
@@ -45,6 +46,7 @@ const ProductCard = ({ product }) => {
 
     // Add product to cart or update excisting one
     const addToCart = async (id, amount, price) => {
+      setAddToCartButtonDisabled(true)
       const response = await fetch('https://shoppingappmalach.herokuapp.com/cart_item', { 
         method: 'POST',
         headers: {
@@ -70,7 +72,8 @@ const ProductCard = ({ product }) => {
            singlePrice: cartItem.Product.price,
            amount: cartItem.amount,
            totalPrice:cartItem.price,
-           image: cartItem.Product.image
+           image: cartItem.Product.image,
+           priceInKg: cartItem.priceInKg
          }
           const productArr = products
           const addedProduct = productArr.find(item => item.id === id)
@@ -80,6 +83,7 @@ const ProductCard = ({ product }) => {
           dispatch(updateTotalPrice(newProductInCart.totalPrice))
           successToast('Product added to cart! 😀')
         }
+        setAddToCartButtonDisabled(false)
        }
     }
 
@@ -113,7 +117,8 @@ const ProductCard = ({ product }) => {
       {product.image &&
       <div class="contain">
         <Image cloudName="malachcloud" src={product.image} width="250" height="200" crop="scale" />
-        <h3>{product.name}</h3>
+        <h3 className="product_header">{product.name}</h3>
+        <p className="product_paragraph">{product.description}</p>
         <div class="properties">
           {!isAdmin &&
             <div class="qty">
@@ -127,7 +132,7 @@ const ProductCard = ({ product }) => {
               <h4>Price</h4>
               <span class="price-inr">
                 <i class="fa fa-inr"></i>
-                <span class="amount">${product.price}</span>
+                <span class="amount">${product.price} <small>{product.priceInKg ? 'per kg' : 'per unit'}</small></span>
               </span>
             </div>
 
@@ -141,7 +146,7 @@ const ProductCard = ({ product }) => {
             </div> }
         </div>
     
-      {!isAdmin && <input class="ip-add-cart" type="button" value={product.isInCart ? 'Update' : 'Add to cart'} onClick={() => addToCart(product.id, product.quantity, product.price )}  id="stepOne"/> }
+      {!isAdmin && <button class="ip-add-cart" type="button" disabled={addToCartButtonDisabled} onClick={() => addToCart(product.id, product.quantity, product.price )}  id="stepOne"> {product.isInCart ? 'Update' : 'Add to cart'} </button>}
       {isAdmin && <input class="ip-add-cart" type="button" value="Update product" onClick={() => updateProduct(product.id)} /> }
     </div> }	
    </>

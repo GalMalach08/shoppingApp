@@ -214,7 +214,7 @@ const SignUp = ({ setIsAuth }) => {
                 <Button 
                 disabled={props.values.username && !props.errors.username 
                 && props.values.password &&  !props.errors.password 
-                && props.values.confirmPassword &&  !props.errors.confirmPassword && !buttonDisabled ? false : true} 
+                && props.values.confirmPassword &&  !props.errors.confirmPassword  ? false : true} 
                 className="my-3" variant="contained" color="primary" size="large" fullWidth onClick={() => isUserExcist(props.values.username)}> Next </Button>
                 </>
                 }
@@ -235,7 +235,7 @@ const SignUp = ({ setIsAuth }) => {
                 
                 <Button 
                 disabled={props.values.firstname && props.values.lastname 
-                && props.values.city &&  props.values.street ? false : true} 
+                && props.values.city &&  props.values.street && !buttonDisabled ? false : true} 
                 className="my-3" variant="contained" color="primary" size="large" fullWidth type="submit"> Sign up </Button>
                 
                 <Button className="my-3" variant="contained" color="primary" size="large" fullWidth onClick={handleBack}> Back </Button>

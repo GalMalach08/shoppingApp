@@ -2,10 +2,11 @@
 
 div.contain {
   width:338px;
-  height:400px;
+  min-height:400px;
   text-align: center;
   background: #fff;
   border-radius:10px;
+  margin: 15px 0px 0px 20px;
 }
 
 div.contain h3 {
@@ -17,7 +18,7 @@ div.contain h3 {
 }
   
   div.contain div.properties {
-    height: 130px;
+    height: 100px;
     display:flex;
     justify-content: space-around;
     font-family: 'Roboto', sans-serif;
@@ -52,9 +53,15 @@ div.contain h3 {
     font-size: 20px;
     padding: 0 5px;
   }
+  .product_header {
+    max-width: 325px;
+    margin:5px;
+    overflow-wrap: break-word;
+  }
 
   div.contain .ip-add-cart {
-    margin-top:-8px;
+    position: relative;
+    top:15px;
     border: none;
     padding: 12px 50px;
     background: #f22d34;
@@ -69,5 +76,13 @@ div.contain h3 {
   }
   div.contain .ip-add-cart:hover {
     background: #da1920;
+  }
+  .product_paragraph {
+
+    margin:5px;
+  }
+
+  div.contain .ip-add-cart:disabled {
+    background: #ffcccc;
   }
   

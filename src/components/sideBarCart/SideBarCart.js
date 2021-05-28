@@ -11,7 +11,7 @@ import { Image } from 'cloudinary-react'
 // Components
 import Search from '../search/Search'
 // Material ui
-import { TextField, Button, Divider, Select, MenuItem, IconButton, Drawer, AppBar, Input, Toolbar, Typography, useMediaQuery } from '@material-ui/core'
+import { TextField, Button, Divider, Select, MenuItem, IconButton, Drawer, AppBar, Input, Toolbar, Typography, FormLabel, RadioGroup, FormControlLabel, Radio, FormControl } from '@material-ui/core'
 import clsx from 'clsx'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
@@ -65,9 +65,12 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+
   },
+
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: 'white'
   },
   drawerHeader: {
     display: 'flex',
@@ -82,6 +85,14 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
+  },
+  radio_btn_label: {
+    textAlign:'left',
+    marginTop:'5px',
+  },
+  radio_group: {
+    display:'flex',
+    flexDirection:'row',
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -98,7 +109,8 @@ const SideBarCart = () => {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [disableButton, setDisableButton] = useState(false)
   const [categoryArr, setCategoryArr] = useState([])
-  const [initialValues, setInitialValues] = useState({name:'', price: '', image: '', category: ''})
+  const [initialValues, setInitialValues] = useState({name:'', price: '', image: '', category: '', description: ''})
+  const [selectedTypeOfPrice, setSelectedTypeOfPrice] = useState('product')
   const cartProducts = useSelector(state => state.products.cartProducts)
   const totalPrice = useSelector(state => state.products.totalPrice)
   const isAdmin = useSelector(state => state.users.isAdmin)
@@ -115,12 +127,14 @@ const SideBarCart = () => {
   const validationSchema = Yup.object().shape({
     name:Yup.string()
     .required('name is required!'),
-    price:Yup.string()
+    description:Yup.string(),
+    price:Yup.number()
     .required('price is required!'),
     image:Yup.string()
     .required('image is required!'),
     category: Yup.string()
     .required('category is required!'),
+    perPrice: Yup.string()
     })
 
   const errorHelper = (formik,values) => ({
@@ -248,55 +262,74 @@ const SideBarCart = () => {
   const updateProduct = async (values) => {
     setDisableButton(true)
     const CategoryId = categoryArr.find(category => category.name === values.category).id
+    const priceInKg = selectedTypeOfPrice === 'kg' ? true: false
     const res = await fetch('https://shoppingappmalach.herokuapp.com/product',{ method: 'PATCH',
     headers: {
         'Content-Type':'application/json'
     },
-    body: JSON.stringify({ ...values, imageName, CategoryId, id: productToUpdate.id })
+    body: JSON.stringify({ ...values, imageName, CategoryId, priceInKg, id: productToUpdate.id })
     })
     const { product } = await res.json()
+    console.log(product);
     const productsArr = products
     const findIndex = productsArr.findIndex(item => item.id === product.id) 
-    productsArr[findIndex] = product 
-    dispatch(setProductsState(productsArr))
+    if(findIndex !== -1) { // if the product excist on the page
+      if(`/products/${product.CategoryId}` === location.pathname) { // if the category doesnt changed
+        productsArr[findIndex] = product 
+        dispatch(setProductsState(productsArr))
+      } else {
+        const newProductsArr = productsArr.filter(item => item.id !== product.id)
+        dispatch(setProductsState(newProductsArr))
+      }
+    } else if(`/products/${product.CategoryId}` === location.pathname)  { // if the product doesnt excist on the page but needs to be after the update
+        productsArr.push(product) 
+        dispatch(setProductsState(productsArr))
+    }
     successToast('Product Updated! 😀')
     setDisableButton(false) 
   }
 
   // Add product
-  const addProduct = async (values) => {
+  const addProduct = async (values, resetForm) => {
+    console.log(resetForm);
     setDisableButton(true)
     const CategoryId = categoryArr.find(category => category.name === values.category).id
+    const priceInKg = selectedTypeOfPrice === 'kg' ? true: false
+    // console.log({ ...values, imageName, priceInKg, CategoryId })
     const res = await fetch('https://shoppingappmalach.herokuapp.com/product',{ method: 'POST',
     headers: {
         'Content-Type':'application/json'
     },
-    body: JSON.stringify({ ...values,imageName, CategoryId })
+    body: JSON.stringify({ ...values, imageName, CategoryId, priceInKg })
 })
     const { product } = await res.json()
     if(`/products/${CategoryId}` === location.pathname) {
       const cartProductsArr = products
-      cartProductsArr.push({ ...product, quanity:1 })
+      cartProductsArr.push({ ...product, image: values.image, quanity:1 })
       dispatch(setProductsState(cartProductsArr))
     }
     successToast('Product Added! 😀')
     setDisableButton(false)
+    resetForm()
+    setImageName('')
   }
 
   // Change the form from update to add
   const changeStatetoAdd = () => {
     dispatch(setProductToUpdate({}))
-    setInitialValues({name:'', price: '', image: '', category: ''})
+    setInitialValues({name:'', price: '', image: '', category: '', description: ''})
     setImageName('')
+    setSelectedTypeOfPrice('product')
   }
 
   // Set the initial values to the update form
   useEffect(() => {
     if(productToUpdate.name) {
-    const { name, price, image, Category, imageName } = productToUpdate
-    setInitialValues({ name, price, image, category: Category.name })
+    const { name, description, price, image, Category, imageName, priceInKg } = productToUpdate
+    setInitialValues({ name, description, price, image, category: Category.name, })
     setImageName(imageName)
     setSelectedCategory(Category.name)
+    setSelectedTypeOfPrice(priceInKg ? 'kg' : 'product' )
     }
   }, [productToUpdate])
 
@@ -407,7 +440,7 @@ const SideBarCart = () => {
           {totalPrice === 0 ?
             <h5 className="m-2">Your cart is empty</h5>
            :
-            <h5 className="ml-2"><span className="total_price_span"> Total price: </span> ${totalPrice}</h5>
+            <h5 className="ml-2"><span className="total_price_span"> Total price: </span> ${totalPrice.toFixed(2)}</h5>
           }
     
           <div className="btn-group">
@@ -440,8 +473,19 @@ const SideBarCart = () => {
                     <TextField name="name" margin="normal" label="name" variant="outlined" fullWidth 
                     {...props.getFieldProps('name')} {...errorHelper(props,'name')}/>
 
+                    <TextField name="description" margin="normal" label="description" variant="outlined" fullWidth 
+                    {...props.getFieldProps('description')} {...errorHelper(props,'description')}/>
+
                     <TextField name="price" margin="normal" label="price" variant="outlined" fullWidth 
                     {...props.getFieldProps('price')} {...errorHelper(props,'price')}/>
+
+
+                    <FormLabel component="legend" className={classes.radio_btn_label}>Price per</FormLabel>
+                      <RadioGroup name="perPrice"  {...props.getFieldProps('perPrice')} {...errorHelper(props,'perPrice')} value={selectedTypeOfPrice} onChange={e => setSelectedTypeOfPrice(e.target.value)} className={classes.radio_group}>
+                        <FormControlLabel value="product" control={<Radio />} label="product"/>
+                        <FormControlLabel value="kg" control={<Radio />} label="kg"/>
+                      </RadioGroup>
+                
 
                     <Select defaultValue = "" value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)}  name="category" fullWidth  {...props.getFieldProps('category')}
                     {...errorHelper(props,'category')}>
@@ -458,7 +502,7 @@ const SideBarCart = () => {
                   <Button
                   disabled={props.values.name && props.values.price && props.values.image && props.values.category && !disableButton ? false : true} 
                   className="my-3" variant="contained" color="primary" 
-                  onClick={productToUpdate.name ? () => updateProduct(props.values) : () => addProduct(props.values)} 
+                  onClick={productToUpdate.name ? () => updateProduct(props.values) : () => addProduct(props.values, props.resetForm)} 
                   size="large" fullWidth> { productToUpdate.name ? 'Update product' : 'Add product' } </Button>
               </form> )}
             </Formik>  
