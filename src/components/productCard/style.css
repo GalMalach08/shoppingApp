@@ -20,7 +20,7 @@ div.contain h3 {
   div.contain div.properties {
     height: 100px;
     display:flex;
-    justify-content: space-around;
+    justify-content: space-between;
     font-family: 'Roboto', sans-serif;
   }
 
@@ -51,7 +51,6 @@ div.contain h3 {
   }
   div.contain div.properties .price .amount {
     font-size: 20px;
-    padding: 0 5px;
   }
   .product_header {
     max-width: 325px;

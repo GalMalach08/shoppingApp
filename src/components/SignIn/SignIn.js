@@ -1,9 +1,10 @@
 import React,{ useState, useEffect } from 'react'
-// Redux 
 import { useHistory, Link } from 'react-router-dom'
+// Component
+import Loader from '../loader/Loader' 
 // Material ui components
 import { Grid, TextField, Button, Paper, Collapse, IconButton, InputAdornment, ListItemAvatar,
-Avatar, ListItem, List, ListItemText, Grow } from '@material-ui/core'
+Avatar, ListItem, List, ListItemText } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Alert from '@material-ui/lab/Alert'
 // Material ui icons
@@ -224,7 +225,7 @@ const SignIn = ({ setIsAuth }) => {
   return (
   
    <>
-    { numberOfProducts && numberOfOrders &&
+    { numberOfProducts && numberOfOrders ?
       <Grid container className={classes.root}>
         {/* Form grid */}
         <Grid item xs={10} md={4} component={Paper}  square className={classes.formGrid}>
@@ -232,7 +233,7 @@ const SignIn = ({ setIsAuth }) => {
           <div className={classes.paper}>
             <img src="https://thumbs.dreamstime.com/b/vegetables-shopping-cart-trolley-grocery-logo-icon-design-vector-171090350.jpg" width="100" height="100" crop="scale" alt="cart" />
             <form className={classes.form} onSubmit={formik.handleSubmit} autoComplete="off">
-                <TextField variant="outlined" margin="normal" fullWidth label="user name" name="email" autoFocus {...formik.getFieldProps('username')} {...errorHelper(formik,'username')}/>
+                <TextField variant="outlined" margin="normal" fullWidth label="user name" name="email" {...formik.getFieldProps('username')} {...errorHelper(formik,'username')}/>
                 <TextField 
                 InputProps={{
                   endAdornment: (
@@ -339,7 +340,7 @@ const SignIn = ({ setIsAuth }) => {
          
         </Grid>
       </Grid>
-              }
+              : <Loader />}
               </>
     )
 }

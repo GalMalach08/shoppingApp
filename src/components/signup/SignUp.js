@@ -79,7 +79,7 @@ const SignUp = ({ setIsAuth }) => {
     lastname:Yup.string()
     .required('last name is required!'),
     username:Yup.string()
-    .required('user name is required!')
+    .required('email is required!')
     .email(),
     password:Yup.string()
     .required('password is required!')
