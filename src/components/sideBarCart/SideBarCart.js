@@ -446,7 +446,7 @@ const SideBarCart = () => {
               <div className="product_info">
                 <h6>{product.name}</h6>
                 <h6>quanity: {product.amount}</h6>
-                <h6>total price: {product.totalPrice}$</h6>
+                <h6>total price: {product.totalPrice.toFixed(2)}$</h6>
               </div>
               <div>
                 { isDelete && <IconButton onClick={() => removeFromCart(product.id)}> <CloseIcon/> </IconButton> }
