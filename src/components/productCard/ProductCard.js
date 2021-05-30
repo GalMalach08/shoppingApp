@@ -141,7 +141,7 @@ const ProductCard = ({ product }) => {
               <h4>Total</h4>
               <span class="price-inr">
                 <i class="fa fa-inr"></i>
-                <span class="amount">${+product.price * +product.quantity}</span>
+                <span class="amount">${(+product.price * +product.quantity).toFixed(2)}</span>
               </span>
             </div> }
         </div>
