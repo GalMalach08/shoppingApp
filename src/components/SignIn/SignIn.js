@@ -275,7 +275,7 @@ const SignIn = ({ setIsAuth }) => {
                 <Button className="m-3" variant="contained" color="secondary" onClick={() => logout() }>{'Log in with another user'}  </Button>
                 </div>
                 <div className="second_flip_image">
-                  <img src="https://wallpaperaccess.com/full/2338280.jpg" alt="" width="400px" height="300px"/>
+                  <img src="https://wallpaperaccess.com/full/2338280.jpg" alt="" width="50%" height="300px"/>
                 </div>
               </div>
               </ReactCardFlip>
