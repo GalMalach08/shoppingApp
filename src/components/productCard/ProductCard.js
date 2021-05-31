@@ -146,7 +146,7 @@ const ProductCard = ({ product }) => {
             </div> }
         </div>
     
-      {!isAdmin && <button class="ip-add-cart" type="button" disabled={addToCartButtonDisabled} onClick={() => addToCart(product.id, product.quantity, product.price )}  id="stepOne"> {product.isInCart ? 'Update' : 'Add to cart'} </button>}
+      {!isAdmin && <button class="ip-add-cart" type="button" disabled={addToCartButtonDisabled} onClick={() => addToCart(product.id, product.quantity, product.price)}  id="stepOne"> {product.isInCart ? 'Update' : 'Add to cart'} </button>}
       {isAdmin && <input class="ip-add-cart" type="button" value="Update product" onClick={() => updateProduct(product.id)} /> }
     </div> }	
    </>
