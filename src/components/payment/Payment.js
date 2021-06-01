@@ -194,16 +194,16 @@ const Payment = () => {
             {rows.map((row) => (
               <TableRow key={row.id}>
                 <TableCell>
-                <Image className="product_img"  cloudName="malachcloud" src={row.image} width="70" height="40" crop="scale" />
+                <img className="product_img" src={row.image} width="70" height="40" alt={`${row.name}`} />
                   {row.name}
                 </TableCell>
                 <TableCell>{row.amount}</TableCell>
-                <TableCell>${row.totalPrice}</TableCell>
+                <TableCell>${row.totalPrice.toFixed(2)}</TableCell>
               </TableRow>
             ))}
             <TableRow>
                 <TableCell>
-                  <p className="total_price_p">Total price: ${totalPrice}</p>
+                  <p className="total_price_p">Total price: ${totalPrice.toFixed(2)}</p>
                 </TableCell>
             </TableRow>
           </TableBody>

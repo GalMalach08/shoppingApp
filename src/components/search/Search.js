@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Search = () => {
     const [searchValue, setSearchValue] = useState('')
+    const [buttonDisabled, setButtonDisabled] = useState(false)
     const cartProducts = useSelector(state => state.products.cartProducts)
     const dispatch = useDispatch()
     const history = useHistory()
@@ -67,6 +68,7 @@ const Search = () => {
     }
   
     const findProducts = async () => {
+      setButtonDisabled(true)
       const res = await fetch(`https://shoppingappmalach.herokuapp.com/product/search`, { method: 'POST',
       headers: {
           'Content-Type':'application/json'
@@ -88,6 +90,7 @@ const Search = () => {
     } else {
       dispatch(setNoProducts(true))
     }
+    setButtonDisabled(false)
     history.push('/products/search')
     dispatch(setProductsState(products))
     }
@@ -107,7 +110,7 @@ const Search = () => {
                 input: classes.inputInput,
               }}
             />
-            <Button color="primary" onClick={findProducts} disabled={!searchValue}>Search</Button>
+            <Button color="primary" onClick={findProducts} disabled={!searchValue || buttonDisabled}>Search</Button>
            <IconButton onClick={() => clearInput() }> <ClearIcon fontSize="small"/> </IconButton> 
            
           </div>

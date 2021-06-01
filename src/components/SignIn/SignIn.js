@@ -266,8 +266,8 @@ const SignIn = ({ setIsAuth }) => {
               </div>
             
               {!availableCart && !userLastOrder && !newUser && !admin && <ListItemText>Please log in to continue</ListItemText>}
-                {availableCart && <ListItemText className={classes.longMessage}> <p className="loggedin_paragraph"> You have a shopping cart in process. The cart was created on {availableCart.date}, includes  {availableCart.CartItems.length} products and has a total amount of {availableCartSum} Dollar. </p></ListItemText>}
-                {userLastOrder && <ListItemText className={classes.longMessage}><p className="loggedin_paragraph"> You do not have an open cart. Your previous order was placed on {userLastOrder.order_date} and cost {userLastOrder.price} Dollar. We invite you to open a new cart and start buying from us in the store</p></ListItemText>}
+                {availableCart && <ListItemText className={classes.longMessage}> <p className="loggedin_paragraph"> You have a shopping cart in process. The cart was created on {availableCart.date}, includes  {availableCart.CartItems.length} products and has a total amount of {availableCartSum.toFixed(2)} Dollar. </p></ListItemText>}
+                {userLastOrder && <ListItemText className={classes.longMessage}><p className="loggedin_paragraph"> You do not have an open cart. Your previous order was placed on {userLastOrder.order_date} and cost {userLastOrder.price.toFixed(2)} Dollar. We invite you to open a new cart and start buying from us in the store</p></ListItemText>}
                 {newUser && <ListItemText> <p className="loggedin_paragraph">  Welcome to your first purchase {newUser} 🎉</p></ListItemText>}
                 {admin && <div className="admin_div"> <p className="admin_paragraph">  Hello mister admin </p> </div>}
                 <div className="btn_div">
