@@ -1,7 +1,10 @@
 import React from 'react'
+// React router dom
 import { Link } from 'react-router-dom'
 import { Jumbotron } from 'react-bootstrap'
+// Css
 import './style.css'
+
 const NoProduct = () => {
     return (
         <Jumbotron className="not_found_div">

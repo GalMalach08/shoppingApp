@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Switch, BrowserRouter, Route, Redirect } from 'react-router-dom'; // imrr
+import { Switch, BrowserRouter, Route, Redirect } from 'react-router-dom'
 import { authGaurd } from './hoc/Auth'
 import Home from './components/home/Home'
 import LogOut from './components/logout/LogOut'

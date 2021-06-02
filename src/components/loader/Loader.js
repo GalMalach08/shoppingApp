@@ -1,5 +1,7 @@
 import React from 'react'
-import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
+// Material ui
+import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore'
+// Css
 import './style.css'
 
 const Loader = () => {
@@ -8,7 +10,6 @@ const Loader = () => {
         <div className="overlay"></div>
         <div className="loaders"> <LocalGroceryStoreIcon fontSize="large" style={{fill:"grey"}}/> </div>
         </>
-
     )
 }
 

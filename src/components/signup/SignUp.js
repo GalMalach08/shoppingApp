@@ -143,21 +143,6 @@ const SignUp = ({ setIsAuth }) => {
         })
         const { user, error } = await response.json()
         if(user) {
-          // delete user.password
-          // localStorage.setItem('user', JSON.stringify({...user, newUser:true }))
-          // const res = await fetch('https://shoppingappmalach.herokuapp.com/cart',{ method: 'POST',
-          // headers: {
-          //     'Content-Type':'application/json'
-          // },
-          // body: JSON.stringify({ date: new Date().toLocaleDateString(), completed: false, UserId: user.id})
-          // })
-          // const { cart } = await res.json()
-          // localStorage.setItem('availableCart',JSON.stringify(cart))
-          // setTimeout(() => {
-          //   setButtonDisabled(false)
-          //   setIsAuth(true)
-          //   history.push('/signin')
-          // } ,100)
           history.push('/signin')
           } else {
           setMessage(error)
@@ -239,7 +224,7 @@ const SignUp = ({ setIsAuth }) => {
                   <TextField name="lastname" margin="normal" label="Last name" variant="outlined" fullWidth {...props.getFieldProps('lastname')} {...errorHelper(props,'lastname')}/>   
                   <FormControl className={classes.select} style={{width:'100%'}}>
                     <InputLabel className={classes.selectLabel}>City</InputLabel>
-                    <Select fullWidth value={chosenCity} onChange={(e) => setChosenCity(e.target.value)} name="city" fullWidth  {...props.getFieldProps('city')} {...errorHelper(props,'city')}>
+                    <Select fullWidth value={chosenCity} onChange={(e) => setChosenCity(e.target.value)} name="city"  {...props.getFieldProps('city')} {...errorHelper(props,'city')}>
                       {cityArr.map(city => (
                         <MenuItem key={city} value={city}>{city}</MenuItem>
                       ))}

@@ -132,7 +132,8 @@ const SideBarCart = () => {
   const validationSchema = Yup.object().shape({
     name:Yup.string()
     .required('name is required!'),
-    description:Yup.string(),
+    description:Yup.string()
+    .max(20,'you cant write that much!'),
     price:Yup.number()
     .required('price is required!'),
     image:Yup.string()
@@ -283,7 +284,7 @@ const SideBarCart = () => {
     const productsArr = products
     const findIndex = productsArr.findIndex(item => item.id === product.id) 
     if(findIndex !== -1) { // if the product excist on the page
-      if(`/products/${product.CategoryId}` === location.pathname) { // if the category doesnt changed
+      if(`/products/${product.CategoryId}` === location.pathname || `/products/search` === location.pathname) { // if the category doesnt changed
         productsArr[findIndex] = { ...product, image: values.image }
         dispatch(setProductsState(productsArr))
       } else {
@@ -340,8 +341,9 @@ const SideBarCart = () => {
   // Set the initial values to the update form
   useEffect(() => {
     if(productToUpdate.name) {
+      console.log(productToUpdate);
     const { name, description, price, image, Category, imageName, priceInKg } = productToUpdate
-    setInitialValues({ name, description, price, image, category: Category.name, })
+    setInitialValues({ name, description, price, image, category: Category.name })
     setImageName(imageName)
     setSelectedCategory(Category.name)
     setSelectedTypeOfPrice(priceInKg ? 'kg' : 'product' )
@@ -368,14 +370,13 @@ const SideBarCart = () => {
       {/* Top navbar */}
       <AppBar position="fixed" className={clsx(classes.appBar, {[classes.appBarShift]: isOpen})}>
         <Toolbar>
-         
           <Navbar bg="white" expand="xl" className="navbar">
               <Navbar.Brand className="navbar_brand">
-              <IconButton color="inherit" onClick={handleDrawerOpen} edge="start" className={clsx(classes.menuButton, isOpen && classes.hide)}>
-                <Badge badgeContent={cartProducts.length} color="primary">
-                  <ShoppingCartIcon/>
-                </Badge>
-              </IconButton>
+                <IconButton color="inherit" onClick={handleDrawerOpen} edge="start" className={clsx(classes.menuButton, isOpen && classes.hide)}>
+                  <Badge badgeContent={cartProducts.length} color="primary">
+                    <ShoppingCartIcon/>
+                  </Badge>
+                </IconButton>
                 <Link to="/products/1" style={{ textDecoration: 'none'}}>
                   <Typography className={classes.title} variant="h6" noWrap> ShoppingApp </Typography>
                 </Link>
@@ -413,19 +414,16 @@ const SideBarCart = () => {
                                 <ExitToAppIcon/> <span className={ isOpen ? "link_desc_small" :"link_desc"}>Logout</span>
                               </IconButton>
                           </NavLink>
-                       
-                            <div className={classes.searchLink}> <Search/> </div> 
-                   
-                        
-                  
+
+                          <div className={classes.searchLink}> <Search/> </div> 
+              
                     </Nav>
-              </Navbar.Collapse>
-          </Navbar>
-        </Toolbar>
+                </Navbar.Collapse>
+            </Navbar>
+          </Toolbar>
       </AppBar>
 
       {/* Side bar */}
-  
       <Drawer className={classes.drawer} variant="persistent" anchor="left" open={isOpen}  classes={{ paper: classes.drawerPaper }}>
         {!isAdmin ? 
         <>
@@ -527,7 +525,7 @@ const SideBarCart = () => {
                     </Collapse>
       
                   <Button
-                  disabled={props.values.name && props.values.price && props.values.image && props.values.category && !disableButton ? false : true} 
+                  disabled={props.values.name && props.values.price && props.values.image && props.values.category && !disableButton && !props.errors.description ? false : true} 
                   className="my-3" variant="contained" color="primary" 
                   onClick={productToUpdate.name ? () => updateProduct(props.values) : () => addProduct(props.values, props.resetForm)} 
                   size="large" fullWidth> { productToUpdate.name ? 'Update product' : 'Add product' } </Button>

@@ -99,7 +99,6 @@ const Search = () => {
         <>
            <div className={classes.search} id='stepFour'>
             <div className={classes.searchIcon}>  <SearchIcon />  </div>
-        
             <InputBase
               type='text'
               value={searchValue}
@@ -111,8 +110,7 @@ const Search = () => {
               }}
             />
             <Button color="primary" onClick={findProducts} disabled={!searchValue || buttonDisabled}>Search</Button>
-           <IconButton onClick={() => clearInput() }> <ClearIcon fontSize="small"/> </IconButton> 
-           
+            <IconButton onClick={() => clearInput() }> <ClearIcon fontSize="small"/> </IconButton> 
           </div>
         </>
     )

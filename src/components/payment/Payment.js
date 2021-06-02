@@ -19,9 +19,6 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 // Formik
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-// Cloudinary
-import { Image } from 'cloudinary-react'
-
   
 const useStyles = makeStyles((theme) => ({
     root: {

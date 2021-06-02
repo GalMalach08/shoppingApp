@@ -3,9 +3,6 @@
     padding: 1px;
     width:100%;
 }
-/* .navbar_brand {
-    margin-right: 10%;
-} */
 .card_item { 
     display: flex;
     justify-content: space-around;

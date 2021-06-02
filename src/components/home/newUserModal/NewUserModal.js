@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+// Bootstrap
 import { Modal } from 'react-bootstrap'
+// Material ui
 import { Button } from '@material-ui/core'
-import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
+import DoneOutlineIcon from '@material-ui/icons/DoneOutline'
+// Css
 import './style.css'
 
 const NewUserModal = ({ setStepsEnabled })  =>  {
