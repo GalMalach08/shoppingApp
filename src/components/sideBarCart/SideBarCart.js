@@ -222,6 +222,7 @@ const SideBarCart = () => {
      }
   
      const deletedItemInCart = cartProducts.find(item => item.id === id)
+     console.log(deletedItemInCart.totalPrice);
      const cartProductsArr = cartProducts.filter(item => item.id !== id)
      dispatch(setCartProducts(cartProductsArr))
      dispatch(updateTotalPrice(-deletedItemInCart.totalPrice))

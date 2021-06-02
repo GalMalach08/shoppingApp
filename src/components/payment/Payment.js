@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     form: {
       width: '100%',
       marginTop: theme.spacing(1),
+    },
+    table: {
+      maxHeight:'600px'
     }
 }))
 
@@ -173,7 +176,7 @@ const Payment = () => {
         <>
         {/* Products Table */}
         <Grid item xs={12} md={5}  component={Paper} square className={classes.formGrid}>
-          <TableContainer component={Paper}>
+          <TableContainer className={classes.table} component={Paper}>
             <SearchBar
             value={searched}
             onChange={(searchVal) => requestSearch(searchVal)}

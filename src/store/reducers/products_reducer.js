@@ -9,7 +9,9 @@ export default function productsReducer(state={data:[], cartProducts: [],product
         case 'ADD_CART_PRODUCTS':
             return {...state, cartProducts:[...state.cartProducts, action.payload]}
         case 'UPDATE_TOTAL_PRICE':
-            return {...state,totalPrice: state.totalPrice + action.payload}
+            
+            console.log(Number(action.payload.toFixed(2)))
+            return {...state,totalPrice: Number((state.totalPrice + action.payload).toFixed(2))}
         case 'RESET_TOTAL_PRICE':
             return {...state,totalPrice: 0}
         case 'SET_PRODUCT_TO_UPDATE':
