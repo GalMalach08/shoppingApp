@@ -7,3 +7,6 @@
     font-weight: 700;
     font-size:20px;
 }
+.search_bar {
+    position: sticky;
+}

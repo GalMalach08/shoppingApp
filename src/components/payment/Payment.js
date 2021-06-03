@@ -176,12 +176,14 @@ const Payment = () => {
         <>
         {/* Products Table */}
         <Grid item xs={12} md={5}  component={Paper} square className={classes.formGrid}>
-          <TableContainer className={classes.table} component={Paper}>
-            <SearchBar
+        <SearchBar
             value={searched}
             onChange={(searchVal) => requestSearch(searchVal)}
             onCancelSearch={() => cancelSearch()}
+            className="search_bar"
             />
+
+        <TableContainer className={classes.table} component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
