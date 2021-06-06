@@ -134,7 +134,7 @@ const SideBarCart = () => {
     .required('name is required!'),
     description:Yup.string()
     .max(20,'you cant write that much!'),
-    price:Yup.number()
+    price:Yup.string()
     .required('price is required!'),
     image:Yup.string()
     .required('image is required!'),
@@ -342,7 +342,6 @@ const SideBarCart = () => {
   // Set the initial values to the update form
   useEffect(() => {
     if(productToUpdate.name) {
-      console.log(productToUpdate);
     const { name, description, price, image, Category, imageName, priceInKg } = productToUpdate
     setInitialValues({ name, description, price, image, category: Category.name })
     setImageName(imageName)
@@ -484,7 +483,7 @@ const SideBarCart = () => {
             <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-              enableReinitialize={true}>
+            enableReinitialize={true}>
               {(props) => (
                 <form style={{textAlign:'center', margin:'10px'}} onSubmit={props.handleSubmit} autoComplete="off">
                   <div>
