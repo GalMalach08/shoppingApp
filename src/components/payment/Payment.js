@@ -140,7 +140,7 @@ const Payment = () => {
   // Disable specific dates in the date picker
   const disableDates = (date) => {
     const datesArr =  shipmentDatesArr.filter(item => item.month === date.getMonth() && item.day === date.getDate())
-    return datesArr.length > 1 || date.getDay() === 6
+    return datesArr.length > 2 || date.getDay() === 6
   }
 
   // Get all the orders
