@@ -19,6 +19,8 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 // Formik
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+// Css
+import './style.css'
   
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -172,7 +174,7 @@ const Payment = () => {
 
   return (
     <Grid container className={classes.root}>
-        {rows.length !== 0 && 
+        {rows && 
         <>
         {/* Products Table */}
         <Grid item xs={12} md={5}  component={Paper} square className={classes.formGrid}>
@@ -183,7 +185,7 @@ const Payment = () => {
             className="search_bar"
             />
 
-        <TableContainer className={classes.table} component={Paper}>
+        {rows.length !== 0 ? <TableContainer className={classes.table} component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -211,6 +213,7 @@ const Payment = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      :<p className="no_products_p">there is no products with that name</p>}
     
       <Link to='/products/5' style={{textDecoration: 'none'}}>
         <Button variant="outlined" color="secondary" className="m-3"> Continue shopping </Button>

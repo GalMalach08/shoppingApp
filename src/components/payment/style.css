@@ -10,3 +10,6 @@
 .search_bar {
     position: sticky;
 }
+.no_products_p {
+    margin:10px;
+}
