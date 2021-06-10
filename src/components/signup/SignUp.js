@@ -175,7 +175,7 @@ const SignUp = ({ setIsAuth }) => {
             ))}
           </Stepper>
             <Formik
-              initialValues={{username:'gal',password:'', confirmPassword:'',  firstname:'', lastname:'', street:'', city: ''}}
+              initialValues={{username:'',password:'', confirmPassword:'',  firstname:'', lastname:'', street:'', city: ''}}
               onSubmit={(values) => signUpUser(values)}
               validationSchema={validationSchema}
               enableReinitialize={true}>

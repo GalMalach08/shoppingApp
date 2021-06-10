@@ -7,7 +7,7 @@ import SignIn from './components/SignIn/SignIn'
 import SignUp from './components/signup/SignUp'
 import Payment from './components/payment/Payment'
 
-import SideBarCart from './components/sideBarCart/SideBarCart'
+import NavBar from './components/navBar/NavBar'
 
 const Router = () => {
     const [isAuth, setIsAuth] = useState(false)
@@ -15,7 +15,7 @@ const Router = () => {
     return (
         <> 
             <BrowserRouter>
-                {isAuth && <SideBarCart/> }
+                {isAuth && <NavBar/> }
                 <Switch>
                     <Route path='/signin' render={() => <SignIn  setIsAuth={setIsAuth}/> } />
                     <Route path='/signup' render={() => <SignUp  setIsAuth={setIsAuth}/> } />

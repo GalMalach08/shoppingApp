@@ -229,13 +229,12 @@ const Payment = () => {
           
           <TextField inputRef={inputRef} variant="outlined" margin="normal" fullWidth label="city" name="city" {...formik.getFieldProps('city')}
              {...errorHelper(formik,'city')} onDoubleClick={() => getInputValue('city')}
-            //  helperText={!formik.errors.city ? "Double click on the field to get the defualts values" : formik.errors.city}
-
-             />
+             helperText={!formik.errors.city ? "Double click on the field to get the defualts values" : formik.errors.city}/>
          
           <TextField variant="outlined" margin="normal" fullWidth label="street" name="street" {...formik.getFieldProps('street')}
              {...errorHelper(formik,'street')} onDoubleClick={() => getInputValue('street')} 
-            //  helperText={!formik.errors.street ? "Double click on the field to get the defualts values" : formik.errors.street}
+             helperText={!formik.errors.street ? "Double click on the field to get the defualts values" : formik.errors.street}
+               
              />
           
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -246,7 +245,7 @@ const Payment = () => {
               value={selectedDate}
               onChange={handleDateChange}
               shouldDisableDate={disableDates}
-              // helperText="Dates that exceed the maximum order quantity will be marked in gray and you will not be able to select them"
+              helperText="Dates that exceed the maximum order quantity will be marked in gray and you will not be able to select them"
               />
           </MuiPickersUtilsProvider>
         
