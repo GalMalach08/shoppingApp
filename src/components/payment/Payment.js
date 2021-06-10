@@ -54,7 +54,7 @@ const Payment = () => {
   const [openAlert, setOpenAlert] = useState(false)
   const [searched, setSearched] = useState("")
   const [rows, setRows] = useState([])
-  const [selectedDate, setSelectedDate] = useState(new Date())
+  const [selectedDate, setSelectedDate] = useState(null)
   const cartItems = useSelector(state => state.products.cartProducts)
   const totalPrice = useSelector(state => state.products.totalPrice)
   const inputRef = useRef()
@@ -110,7 +110,6 @@ const Payment = () => {
  
   // Get all the cart products and set them in the table
   const getProducts =  () => {
-    console.log(cartItems)
     const itemsArr = []
     cartItems.forEach(item => {
       itemsArr.push(item)
@@ -140,6 +139,7 @@ const Payment = () => {
   // Disable specific dates in the date picker
   const disableDates = (date) => {
     const datesArr =  shipmentDatesArr.filter(item => item.month === date.getMonth() && item.day === date.getDate())
+    if(datesArr.length > 2 ) console.log(datesArr[0])
     return datesArr.length > 2 || date.getDay() === 6
   }
 
@@ -242,7 +242,7 @@ const Payment = () => {
               disablePast 
               label="order date"
               format="dd/MM/yyyy"
-              value={selectedDate}
+              value={selectedDate ? selectedDate: null}
               onChange={handleDateChange}
               shouldDisableDate={disableDates}
               helperText="Dates that exceed the maximum order quantity will be marked in gray and you will not be able to select them"
@@ -260,7 +260,7 @@ const Payment = () => {
               {message}
             </Alert>
           </Collapse>
-          <Button disabled={formik.values.city && formik.values.street && formik.values.creditNumber && ! formik.errors.creditNumber && !buttonDisabled  ? false : true}  
+          <Button disabled={formik.values.city && formik.values.street && formik.values.creditNumber && ! formik.errors.creditNumber && !buttonDisabled && selectedDate  ? false : true}  
            className="my-3" variant="contained" color="primary" type="submit" fullWidth > Send order </Button>  
         </form>
       </div>

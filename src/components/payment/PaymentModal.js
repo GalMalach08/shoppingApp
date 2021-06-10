@@ -15,6 +15,10 @@ const DeleteVacationModal = ({ modalOpen, setModalOpen, orderId }) => {
   const history = useHistory()
   const user = JSON.parse(localStorage.getItem('user'))  
 
+  const setModalHide = () => {
+    setModalOpen(false)
+    history.push('logout')
+  }
   // Make the receipt
   const downloadTxtFile = () => {
     const fileArr = ['Your receipt:']
@@ -29,7 +33,7 @@ const DeleteVacationModal = ({ modalOpen, setModalOpen, orderId }) => {
    
   return (
     <>
-        <Modal size="md" centered show={modalOpen} onHide={() => setModalOpen(false)} style={{margin:'70px auto 30px', textAlign:'center'}}>
+        <Modal size="md" centered show={modalOpen} onHide={() => setModalHide()} style={{margin:'70px auto 30px', textAlign:'center'}}>
             <Modal.Header>
                 <Modal.Title style={{fontWeight:'700'}}> 
                 <p>Thank you {user.firstname}!</p>
