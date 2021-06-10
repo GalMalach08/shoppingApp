@@ -115,39 +115,39 @@ const ProductCard = ({ product }) => {
     return (
       <>
       {product.image &&
-      <div class="contain">
+      <div className="contain">
         <Image cloudName="malachcloud" src={product.image} width="250" height="200" crop="scale" />
         <h3 className="product_header">{product.name}</h3>
         <p className="product_paragraph">{product.description}</p>
-        <div class="properties">
+        <div className="properties">
           {!isAdmin &&
-            <div class="qty">
+            <div className="qty">
               <h4 >Quantity</h4>
               {product.quantity > 1 && <RemoveIcon className={classes.icon} fontSize="small" color="action"   onClick={() => reduceQuantity(product.id)} /> }
-              <span class="number">{product.quantity}</span>
+              <span className="number">{product.quantity}</span>
               <AddIcon className={classes.icon} fontSize="small" color="action"  onClick={() => addQuantity(product.id)} id="stepTwo"/>
             </div> }
 
-            <div class="price">
+            <div className="price">
               <h4>Price</h4>
-              <span class="price-inr">
-                <i class="fa fa-inr"></i>
-                <span class="amount">${product.price} <small>{product.priceInKg ? 'per kg' : 'per unit'}</small></span>
+              <span className="price-inr">
+                <i className="fa fa-inr"></i>
+                <span className="amount">${product.price} <small>{product.priceInKg ? 'per kg' : 'per unit'}</small></span>
               </span>
             </div>
 
             {!isAdmin &&
-            <div class="price">
+            <div className="price">
               <h4>Total</h4>
-              <span class="price-inr">
-                <i class="fa fa-inr"></i>
-                <span class="amount">${(+product.price * +product.quantity).toFixed(2)}</span>
+              <span className="price-inr">
+                <i className="fa fa-inr"></i>
+                <span className="amount">${(+product.price * +product.quantity).toFixed(2)}</span>
               </span>
             </div> }
         </div>
     
-      {!isAdmin && <button class="ip-add-cart" type="button" disabled={addToCartButtonDisabled} onClick={() => addToCart(product.id, product.quantity, product.price)}  id="stepOne"> {product.isInCart ? 'Update' : 'Add to cart'} </button>}
-      {isAdmin && <input class="ip-add-cart" type="button" value="Update product" onClick={() => updateProduct(product.id)} /> }
+      {!isAdmin && <button className="ip-add-cart" type="button" disabled={addToCartButtonDisabled} onClick={() => addToCart(product.id, product.quantity, product.price)}  id="stepOne"> {product.isInCart ? 'Update' : 'Add to cart'} </button>}
+      {isAdmin && <input className="ip-add-cart" type="button" value="Update product" onClick={() => updateProduct(product.id)} /> }
     </div> }	
    </>
     )

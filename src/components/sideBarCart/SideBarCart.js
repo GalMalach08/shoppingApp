@@ -131,9 +131,10 @@ const SideBarCart = () => {
   // Form validation
   const validationSchema = Yup.object().shape({
     name:Yup.string()
-    .required('name is required!'),
-    description:Yup.string()
+    .required('name is required!')
     .max(20,'you cant write that much!'),
+    description:Yup.string()
+    .max(25,'you cant write that much!'),
     price:Yup.string()
     .required('price is required!'),
     image:Yup.string()
@@ -334,7 +335,7 @@ const SideBarCart = () => {
   // Change the form from update to add
   const changeStatetoAdd = () => {
     dispatch(setProductToUpdate({}))
-    setInitialValues({name:'', price: '', image: '', category: '', description: ''})
+    setInitialValues({name:'', price: '', image: '', description: '', category: ''})
     setImageName('')
     setSelectedTypeOfPrice('product')
   }
