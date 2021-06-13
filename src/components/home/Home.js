@@ -43,9 +43,9 @@ const useStyles = makeStyles(() => ({
   const [steps, setSteps] = useState([
       { element:'#stepOne', intro: 'Here you can add new products to the cart 🥳', position: 'left', tooltipClass: 'myTooltipClass' },
       { element:'#stepTwo', intro: 'Increase the quantity in order to reach the desired quantity🥳', position: 'left', tooltipClass: 'myTooltipClass' },
-      { element:'#stepThree', intro:'Here is your cart, threre you will find all the products you added 😎', position: 'left', tooltipClass: 'myTooltipClass' },
-      { element:'#stepFour', intro: 'Try to serach for your desired product 🔍', position: 'left', tooltipClass: 'myTooltipClass' },
-      { element:'#stepFive', intro: 'navigate between the categories', position: 'left', tooltipClass: 'myTooltipClass' },
+      { element:'#stepThree', intro: 'Try to serach for your desired product 🔍', position: 'left', tooltipClass: 'myTooltipClass' },
+      { element:'#stepFour', intro: 'navigate between the categories', position: 'left', tooltipClass: 'myTooltipClass' },
+      { element:'#stepFive', intro:'Here is your cart, threre you will find all the products you added 😎', position: 'left', tooltipClass: 'myTooltipClass' },
       { element:'#stepSix', intro: 'and when you finish click here to move to the payment page', position: 'left', tooltipClass: 'myTooltipClass' },
   ])
 
@@ -98,19 +98,25 @@ const useStyles = makeStyles(() => ({
     user.admin ? dispatch(setIsAdmin(true)) : dispatch(setIsAdmin(false))
    if (user.newUser) {
     setFirstEntry(true)
-    dispatch(setDrawerState(true))
     delete user['newUser']
-    localStorage.setItem('user', JSON.stringify(user))
+    localStorage.setItem('user', JSON.stringify(user)) 
+   } else {
+    dispatch(setDrawerState(true))
    }
   }, [])
+
+  useEffect(() => {
+    getProducts()
+  }, [props.match.params.id])
+
 
 
   return (
     <>
-      {firstEntry ? 
+      {firstEntry && products.length !== 0 ? 
       <>
       <NewUserModal stepsEnabled={stepsEnabled} setStepsEnabled={setStepsEnabled}/>
-      <Steps enabled={stepsEnabled} steps={steps} initialStep={initialStep} onExit={onExit}/>
+      <Steps enabled={stepsEnabled} steps={steps} initialStep={initialStep} onExit={onExit} onAfterChange={(step) =>step === 3 ? dispatch(setDrawerState(true)) : null}/>
      </>
       : null}
       <StylesProvider injectFirst>
@@ -120,7 +126,7 @@ const useStyles = makeStyles(() => ({
               {!noProducts && products ? 
                 products.length !== 0 ?  products.map(product => (
                 <Grow in={true}  timeout={700} key={product.id}>
-                  <Grid item xs={11} lg={5}  className={classes.root}  >
+                  <Grid item xs={11} lg={5}  className={classes.root}>
                     <ProductCard product={product} />
                   </Grid> 
                 </Grow>

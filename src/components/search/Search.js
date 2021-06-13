@@ -97,7 +97,7 @@ const Search = () => {
 
     return (
         <>
-           <div className={classes.search} id='stepFour'>
+           <div className={classes.search} id='stepThree'>
             <div className={classes.searchIcon}>  <SearchIcon />  </div>
             <InputBase
               type='text'

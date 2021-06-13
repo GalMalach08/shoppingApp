@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 const TopNavBar = () => {
-
+    const [show, setShow] = useState(false)
     const classes = useStyles()
     const isOpen = useSelector(state => state.drawer.isOpen)
     const dispatch = useDispatch()
@@ -69,7 +69,7 @@ const TopNavBar = () => {
                     <ShoppingCartIcon/>
                   </Badge>
                 </IconButton>
-                <Link to="/products/1" style={{ textDecoration: 'none'}}>
+                <Link to="/products/5" style={{ textDecoration: 'none'}}>
                   <Typography className={classes.title} variant="h6" noWrap> ShoppingApp </Typography>
                 </Link>
               </Navbar.Brand>
@@ -83,25 +83,25 @@ const TopNavBar = () => {
                               </IconButton>
                             </NavLink>
                        
-                            <NavLink to="/products/15"  className="nav_link" activeClassName="selected" id="stepFive">
-                              <IconButton color="inherit">
+                            <NavLink to="/products/15"  className="nav_link" activeClassName="selected" data-toggle="collapse" data-target=".navbar-collapse.show">
+                              <IconButton color="inherit" id="stepFour">
                               <span  className={ isOpen ? "link_desc_small" :"link_desc"}>Meat And Fish</span>
                               </IconButton>
                             </NavLink>
                  
-                            <NavLink to="/products/25" className="nav_link" activeClassName="selected">
+                            <NavLink to="/products/25" className="nav_link" activeClassName="selected" data-toggle="collapse" data-target=".navbar-collapse.show">
                               <IconButton color="inherit">
                               <span className={ isOpen ? "link_desc_small" :"link_desc"}>Drinks And Alcohol</span>
                               </IconButton>
                             </NavLink>
                       
-                            <NavLink to="/products/35"  className="nav_link" activeClassName="selected">
+                            <NavLink to="/products/35"  className="nav_link" activeClassName="selected" data-toggle="collapse" data-target=".navbar-collapse.show">
                               <IconButton color="inherit">
                               <span className={ isOpen ? "link_desc_small" :"link_desc"}>Fruits And Vegetables</span>
                               </IconButton>
                             </NavLink>
 
-                            <NavLink to="/logout" className="nav_link" activeClassName="selected">
+                            <NavLink to="/logout" className="nav_link" activeClassName="selected" >
                               <IconButton color="inherit">
                                 <ExitToAppIcon/> <span className={ isOpen ? "link_desc_small" :"link_desc"}>Logout</span>
                               </IconButton>

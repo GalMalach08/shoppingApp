@@ -50,7 +50,7 @@ const AdminSideBar = () => {
     .required('name is required!')
     .max(20,'you cant write that much!'),
     description:Yup.string()
-    .max(25,'you cant write that much!'),
+    .max(35,'you cant write that much!'),
     price:Yup.string()
     .required('price is required!'),
     image:Yup.string()

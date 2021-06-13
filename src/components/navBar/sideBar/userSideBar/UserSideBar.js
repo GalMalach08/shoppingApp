@@ -128,7 +128,7 @@ function UserSideBar() {
     return (
         <>
              <div className={classes.drawerHeader}>
-          <h3 className="cart_header" id="stepThree">Your Cart</h3>
+          <h3 className="cart_header" id="stepFive">Your Cart</h3>
           <div>
             <IconButton title="close sidebar" onClick={handleDrawerClose}>
               <ChevronLeftIcon/>

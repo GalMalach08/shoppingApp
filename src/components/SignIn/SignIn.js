@@ -25,6 +25,7 @@ import * as Yup from 'yup'
 import ReactCardFlip from 'react-card-flip';
 // Css
 import './style.css'
+import { set } from 'lodash'
 
   
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
       marginTop:'20px',
     },
     formGrid: {
-      margin:'70px 15px '
+      margin:'20px auto 10px '
     },
     paper: {
       margin: theme.spacing(8, 4),
@@ -81,7 +82,7 @@ const SignIn = ({ setIsAuth }) => {
 
     // Formik
     const formik = useFormik({
-      initialValues:{username:'',password:''},
+      initialValues: { username: '', password: '' },
       validationSchema:Yup.object({
           username:Yup.string()
           .required('sorry username is required'),
@@ -198,6 +199,13 @@ const SignIn = ({ setIsAuth }) => {
   }
 
   const logout = () => {
+    console.log(formik)
+    setOpenAlert(false)
+    setMessage('')
+    formik.setFieldValue('username', '')
+    formik.setFieldValue('password', '')
+    formik.setFieldTouched('username', false)
+    formik.setFieldTouched('password', false)
     setIsFlipped(false)
     localStorage.removeItem('user')
     setAvailableCart(null)
@@ -205,11 +213,11 @@ const SignIn = ({ setIsAuth }) => {
     setNewUser(null)
     setAdmin(false)
     setIsFlipped(false)
+
   }
 
   // Set format of the date
   const switchDate = (date) => {
-    console.log(date);
     let dateArr = date.split('/')
     const temp = dateArr[0]
     dateArr[0] = dateArr[1]

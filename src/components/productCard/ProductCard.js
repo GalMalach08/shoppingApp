@@ -60,11 +60,15 @@ const ProductCard = ({ product }) => {
         const cartItemsArr = cartProducts
         const changedItem = cartItemsArr.find(item => item.id === cartItem.ProductId)
         if(changedItem) {
+         if(!(changedItem.amount === amount)) { 
           dispatch(updateTotalPrice( (amount - changedItem.amount ) * price ))
           changedItem.amount = amount
           changedItem.totalPrice = price * amount
           dispatch(setCartProducts(cartItemsArr))
           successToast('Product updated in cart! 😀')
+         } else {
+          successToast('You have not made any changes in the product! 😀')
+         }
         } else {
          const newProductInCart = { 
            id: cartItem.ProductId,
