@@ -30,13 +30,8 @@ const useStyles = makeStyles(() => ({
 }))
 
  const Home = (props) => {
-  const classes = useStyles()
-  const user = JSON.parse(localStorage.getItem('user'))
-  const cart = JSON.parse(localStorage.getItem('availableCart'))
-  const dispatch = useDispatch()
-  const products = useSelector(state => state.products.data)
-  const noProducts = useSelector(state => state.products.noProducts)
-  // Intro js states
+   const [category, setCategory] = useState('')
+     // Intro js states
   const [firstEntry, setFirstEntry] = useState(false)
   const [stepsEnabled, setStepsEnabled] = useState(false)
   const [initialStep, setInitialStep] = useState(0)
@@ -48,6 +43,13 @@ const useStyles = makeStyles(() => ({
       { element:'#stepFive', intro:'Here is your cart, threre you will find all the products you added 😎', position: 'left', tooltipClass: 'myTooltipClass' },
       { element:'#stepSix', intro: 'and when you finish click here to move to the payment page', position: 'left', tooltipClass: 'myTooltipClass' },
   ])
+  const products = useSelector(state => state.products.data)
+  const noProducts = useSelector(state => state.products.noProducts)
+  const user = JSON.parse(localStorage.getItem('user'))
+  const cart = JSON.parse(localStorage.getItem('availableCart'))
+  const classes = useStyles()
+  const dispatch = useDispatch()
+
 
 
   // Get all the products
@@ -58,6 +60,7 @@ const useStyles = makeStyles(() => ({
       dispatch(setNoProducts(false))
       const res = await fetch(`https://shoppingappmalach.herokuapp.com/product/${id}`)
       const { products } = await res.json()
+      setCategory(products[0].Category.name)
       const response = await fetch(`https://shoppingappmalach.herokuapp.com/cart/${cart.id}`)
       const data  = await response.json()
       const productsArr = []
@@ -75,6 +78,8 @@ const useStyles = makeStyles(() => ({
         productsArr.push(productObj)
       })
       dispatch(setProductsState(productsArr))
+    } else {
+      setCategory('Search Results')
     } 
     } catch(err) {
       console.log(err)
@@ -120,9 +125,12 @@ const useStyles = makeStyles(() => ({
      </>
       : null}
       <StylesProvider injectFirst>
-     
+      {category && <div className="home_header">
+        <h1 className="category_name">{category}</h1>
+      </div> }
         <div className="container">
           <Grid container>
+          
               {!noProducts && products ? 
                 products.length !== 0 ?  products.map(product => (
                 <Grow in={true}  timeout={700} key={product.id}>

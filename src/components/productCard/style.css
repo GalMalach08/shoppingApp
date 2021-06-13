@@ -6,7 +6,12 @@ div.contain {
   text-align: center;
   background: #fff;
   border-radius:10px;
-  margin: 15px 0px 0px 20px;
+  margin: 15px auto 20px 100px;
+}
+@media screen and (max-width: 1279px) {
+  div.contain {
+    margin: 15px auto 20px;
+  }
 }
 
 div.contain h3 {

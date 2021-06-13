@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
       marginTop:'20px',
     },
     formGrid: {
-      margin:'20px auto 10px '
+      margin:'50px auto 10px '
     },
     paper: {
       margin: theme.spacing(8, 4),
@@ -236,7 +236,7 @@ const SignIn = ({ setIsAuth }) => {
     { numberOfProducts && numberOfOrders ?
       <Grid container className={classes.root}>
         {/* Form grid */}
-        <Grid item xs={10} md={4} component={Paper}  square className={classes.formGrid}>
+        <Grid item xs={10} md={4} component={Paper}  square className={classes.formGrid} >
         <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
           <div className={classes.paper}>
             <img src="https://thumbs.dreamstime.com/b/vegetables-shopping-cart-trolley-grocery-logo-icon-design-vector-171090350.jpg" width="100" height="100" crop="scale" alt="cart" />

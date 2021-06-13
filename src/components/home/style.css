@@ -11,3 +11,13 @@ body{
 .mini_content {
     font-size:13px;
 }
+.home_header {
+    text-align: center;
+    margin:40px 0px 20px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+}
+.category_name {
+    font-weight: 600;
+}
+

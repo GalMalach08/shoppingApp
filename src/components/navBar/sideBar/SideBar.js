@@ -17,7 +17,8 @@ const useStyles = makeStyles(() => ({
     },
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor: 'white'
+      backgroundColor: 'white',
+ 
     }
   }))
 
