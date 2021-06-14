@@ -49,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 const TopNavBar = () => {
-    const [show, setShow] = useState(true)
     const classes = useStyles()
     const isOpen = useSelector(state => state.drawer.isOpen)
     const dispatch = useDispatch()
@@ -75,7 +74,7 @@ const TopNavBar = () => {
                 </Link>
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse className={`navbar_collapse ${show ? 'show' : null}`} ref={navBarRef}>
+              <Navbar.Collapse className="navbar_collapse" ref={navBarRef}>
                 <Nav className="mr-auto w-100 d-flex justify-content-around">
                  
                             <NavLink to="/products/5" className="nav_link" activeClassName="selected" data-toggle="collapse" data-target=".navbar-collapse.show">

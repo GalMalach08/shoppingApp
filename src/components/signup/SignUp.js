@@ -83,7 +83,7 @@ const SignUp = ({ setIsAuth }) => {
     .required('last name is required!'),
     username:Yup.string()
     .required('email is required!')
-    .email(),
+    .email('must be valid email!'),
     password:Yup.string()
     .required('password is required!')
     .min(6, 'password have to be at least 6 characters long'),
