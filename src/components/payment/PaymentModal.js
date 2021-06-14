@@ -10,7 +10,7 @@ import Modal from 'react-bootstrap/Modal'
 import './style.css'
 
 
-const DeleteVacationModal = ({ modalOpen, setModalOpen, orderId }) => {
+const PaymentModal = ({ modalOpen, setModalOpen, orderId }) => {
   const products = useSelector(state => state.products)
   const history = useHistory()
   const user = JSON.parse(localStorage.getItem('user'))  
@@ -49,4 +49,4 @@ const DeleteVacationModal = ({ modalOpen, setModalOpen, orderId }) => {
     )
 }
 
-export default DeleteVacationModal
+export default PaymentModal

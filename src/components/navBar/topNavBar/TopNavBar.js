@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -49,11 +49,12 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 const TopNavBar = () => {
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(true)
     const classes = useStyles()
     const isOpen = useSelector(state => state.drawer.isOpen)
     const dispatch = useDispatch()
     const cartProducts = useSelector(state => state.products.cartProducts)
+    const navBarRef = useRef()
 
   // Handle drawer state
   const handleDrawerOpen = () => dispatch(setDrawerState(true))
@@ -74,17 +75,17 @@ const TopNavBar = () => {
                 </Link>
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse className="navbar_collapse">
+              <Navbar.Collapse className={`navbar_collapse ${show ? 'show' : null}`} ref={navBarRef}>
                 <Nav className="mr-auto w-100 d-flex justify-content-around">
                  
-                            <NavLink to="/products/5" className="nav_link" activeClassName="selected">
+                            <NavLink to="/products/5" className="nav_link" activeClassName="selected" data-toggle="collapse" data-target=".navbar-collapse.show">
                               <IconButton color="inherit" className={classes.iconButton}>
                               <span className={ isOpen ? "link_desc_small" :"link_desc"}>Dairy And Eggs</span>
                               </IconButton>
                             </NavLink>
                        
-                            <NavLink to="/products/15"  className="nav_link" activeClassName="selected" data-toggle="collapse" data-target=".navbar-collapse.show">
-                              <IconButton color="inherit" id="stepFour">
+                            <NavLink to="/products/15"  className="nav_link" activeClassName="selected" data-toggle="collapse" data-target=".navbar-collapse.show"  id="stepFour">
+                              <IconButton color="inherit">
                               <span  className={ isOpen ? "link_desc_small" :"link_desc"}>Meat And Fish</span>
                               </IconButton>
                             </NavLink>
@@ -107,7 +108,7 @@ const TopNavBar = () => {
                               </IconButton>
                           </NavLink>
 
-                          <div className={classes.searchLink}> <Search/> </div> 
+                          <div className={classes.searchLink}> <Search navBarRef={navBarRef}/> </div> 
               
                     </Nav>
                 </Navbar.Collapse>

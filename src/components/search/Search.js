@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     
   }))
 
-const Search = () => {
+const Search = ({ navBarRef }) => {
     const [searchValue, setSearchValue] = useState('')
     const [buttonDisabled, setButtonDisabled] = useState(false)
     const cartProducts = useSelector(state => state.products.cartProducts)
@@ -68,6 +68,7 @@ const Search = () => {
     }
   
     const findProducts = async () => {
+      navBarRef.current.classList.remove('show')
       setButtonDisabled(true)
       const res = await fetch(`https://shoppingappmalach.herokuapp.com/product/search`, { method: 'POST',
       headers: {
@@ -91,7 +92,10 @@ const Search = () => {
       dispatch(setNoProducts(true))
     }
     setButtonDisabled(false)
-    history.push('/products/search')
+    history.push({
+      pathname: '/products/search',
+      search: `?value=${searchValue}`
+    })
     dispatch(setProductsState(products))
     }
 

@@ -2,6 +2,7 @@ import React,{ useState } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 // Components
 import Carusel from '../caursel/Carusel'
+import RegisterModal from './registrationModal/RegistrationModal'
 //  Images
 import SignUpPhoto from '../../images/signPhoto.png'
 // material ui
@@ -61,8 +62,10 @@ const useStyles = makeStyles((theme) => ({
 const SignUp = ({ setIsAuth }) => {
   const [message, setMessage] = useState('')
   const [openAlert, setOpenAlert] = useState(false)
+  const [firstname, setFirstName] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [registerModalOpen, setRegisterModalOpen] = useState(false)
   const [chosenCity, setChosenCity] = useState('Choose city')
   const [nextDisabled, setNextDisabled] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
@@ -143,7 +146,8 @@ const SignUp = ({ setIsAuth }) => {
         })
         const { user, error } = await response.json()
         if(user) {
-          history.push('/signin')
+          setFirstName(user.firstname)
+          setRegisterModalOpen(true)
           } else {
           setMessage(error)
           setOpenAlert(true)
@@ -254,6 +258,7 @@ const SignUp = ({ setIsAuth }) => {
     </div>
   </Grid> 
   <Grid item xs={2}></Grid>
+  {registerModalOpen && <RegisterModal firstname={firstname} registerModalOpen={registerModalOpen} setRegisterModalOpen={setRegisterModalOpen}/>}
 </Grid>   
     )
 }

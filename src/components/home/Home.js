@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { setIsAdmin, setProductsState, setDrawerState, setNoProducts } from '../../store/actions'
@@ -45,8 +46,10 @@ const useStyles = makeStyles(() => ({
   ])
   const products = useSelector(state => state.products.data)
   const noProducts = useSelector(state => state.products.noProducts)
+  const cartProducts = useSelector(state => state.products.cartProducts)
   const user = JSON.parse(localStorage.getItem('user'))
   const cart = JSON.parse(localStorage.getItem('availableCart'))
+  const history = useHistory()
   const classes = useStyles()
   const dispatch = useDispatch()
 
@@ -80,7 +83,41 @@ const useStyles = makeStyles(() => ({
       dispatch(setProductsState(productsArr))
     } else {
       setCategory('Search Results')
-    } 
+      const value = props.location.search.split('=')[1]
+      const res = await fetch(`https://shoppingappmalach.herokuapp.com/product/search`, { method: 'POST',
+      headers: {
+          'Content-Type':'application/json'
+      },
+      body: JSON.stringify({ value })
+    })
+    const { products } = await res.json()
+    if(products.length > 0) {
+    const response = await fetch(`https://shoppingappmalach.herokuapp.com/cart/${cart.id}`)
+    const data  = await response.json()
+    const productsArr = []
+    products.forEach(product => {
+      const productObj = {
+        ...product,
+      }
+      const isInCart = data.cart.CartItems.find(item => item.ProductId === product.id)
+      if(isInCart) {
+        productObj.quantity = isInCart.amount
+        productObj.isInCart = true
+        console.log(productObj);
+      } else {
+        productObj.quantity = 1
+      }
+      productsArr.push(productObj)
+    })
+    dispatch(setProductsState(productsArr))
+    history.push({
+      pathname: '/products/search',
+      search: `?value=${value}`
+    })
+    } else {
+      dispatch(setNoProducts(true))
+    }
+  }
     } catch(err) {
       console.log(err)
     }
@@ -92,6 +129,10 @@ const useStyles = makeStyles(() => ({
     setFirstEntry(false)
   }
 
+  const handleSteps = (step) => {
+    step === 1 && window.scrollTo(0,0)
+    step === 2 && dispatch(setDrawerState(true))  
+  }
 
   useEffect(() => {
     getProducts()
@@ -105,7 +146,7 @@ const useStyles = makeStyles(() => ({
     setFirstEntry(true)
     delete user['newUser']
     localStorage.setItem('user', JSON.stringify(user)) 
-   } else {
+   } else if(cartProducts.length > 0)  {
     dispatch(setDrawerState(true))
    }
   }, [])
@@ -118,19 +159,19 @@ const useStyles = makeStyles(() => ({
 
   return (
     <>
+          {category && <div className="home_header">
+        <h1 className="category_name">{category}</h1>
+      </div> }
       {firstEntry && products.length !== 0 ? 
       <>
       <NewUserModal stepsEnabled={stepsEnabled} setStepsEnabled={setStepsEnabled}/>
-      <Steps enabled={stepsEnabled} steps={steps} initialStep={initialStep} onExit={onExit} onAfterChange={(step) =>step === 3 ? dispatch(setDrawerState(true)) : null}/>
+      <Steps enabled={stepsEnabled} steps={steps} initialStep={initialStep} onExit={onExit} onAfterChange={(step) => handleSteps(step)}/>
      </>
       : null}
+
       <StylesProvider injectFirst>
-      {category && <div className="home_header">
-        <h1 className="category_name">{category}</h1>
-      </div> }
         <div className="container">
           <Grid container>
-          
               {!noProducts && products ? 
                 products.length !== 0 ?  products.map(product => (
                 <Grow in={true}  timeout={700} key={product.id}>

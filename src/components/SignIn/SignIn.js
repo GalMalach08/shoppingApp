@@ -25,9 +25,7 @@ import * as Yup from 'yup'
 import ReactCardFlip from 'react-card-flip';
 // Css
 import './style.css'
-import { set } from 'lodash'
 
-  
 const useStyles = makeStyles((theme) => ({
     root: {
       marginTop:'20px',
@@ -171,8 +169,8 @@ const SignIn = ({ setIsAuth }) => {
     }
   }
 
-  // Put the user in the app
-  const getIn = async () => {
+    // Put the user in the app
+    const getIn = async () => {
     setButtonStartDisabled(true)
     if(availableCart) {
       setIsUserAuth(true)
@@ -196,9 +194,10 @@ const SignIn = ({ setIsAuth }) => {
         setIsFlipped(false)
       } ,100)
     }
-  }
-
-  const logout = () => {
+    }
+  
+    // Logout a user
+    const logout = () => {
     console.log(formik)
     setOpenAlert(false)
     setMessage('')
@@ -214,21 +213,21 @@ const SignIn = ({ setIsAuth }) => {
     setAdmin(false)
     setIsFlipped(false)
 
-  }
-
-  // Set format of the date
-  const switchDate = (date) => {
+    }
+  
+    // Set format of the date
+    const switchDate = (date) => {
     let dateArr = date.split('/')
     const temp = dateArr[0]
     dateArr[0] = dateArr[1]
     dateArr[1] = temp
     return dateArr.join('/')
-  }
-
-  useEffect(() => {
-    getNumberOfProducts()
-    getNumberOfOrders()
-  }, [])
+    }
+  
+    useEffect(() => {
+      getNumberOfProducts()
+      getNumberOfOrders()
+    }, [])
 
   return (
   
@@ -274,8 +273,8 @@ const SignIn = ({ setIsAuth }) => {
               </div>
             
               {!availableCart && !userLastOrder && !newUser && !admin && <ListItemText>Please log in to continue</ListItemText>}
-                {availableCart && <ListItemText className={classes.longMessage}> <p className="loggedin_paragraph"> You have a shopping cart in process. The cart was created on {availableCart.date}, includes  {availableCart.CartItems.length} products and has a total amount of {availableCartSum} Dollar. </p></ListItemText>}
-                {userLastOrder && <ListItemText className={classes.longMessage}><p className="loggedin_paragraph"> You do not have an open cart. Your previous order was placed on {userLastOrder.order_date} and cost {userLastOrder.price.toFixed(2)} Dollar. We invite you to open a new cart and start buying from us in the store</p></ListItemText>}
+                {availableCart && <ListItemText className={classes.longMessage}> <p className="loggedin_paragraph"> You have a shopping cart in process. The cart was created on {availableCart.date}, includes  {availableCart.CartItems.length} products and has a total amount of {availableCartSum} USD. </p></ListItemText>}
+                {userLastOrder && <ListItemText className={classes.longMessage}><p className="loggedin_paragraph"> You do not have an open cart. Your previous order was placed on {userLastOrder.order_date} and cost {userLastOrder.price.toFixed(2)} USD. We invite you to open a new cart and start buying from us in the store</p></ListItemText>}
                 {newUser && <ListItemText> <p className="loggedin_paragraph">  Welcome to your first purchase {newUser} 🎉</p></ListItemText>}
                 {admin && <div className="admin_div"> <p className="admin_paragraph">  Hello mister admin </p> </div>}
                 <div className="btn_div">

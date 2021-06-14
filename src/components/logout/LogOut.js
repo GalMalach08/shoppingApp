@@ -1,7 +1,7 @@
 import React ,{ useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { resetTotalPrice, setProductToUpdate, setProductsState } from '../../store/actions'
+import { resetTotalPrice, setProductToUpdate, setProductsState, setDrawerState, setCartProducts } from '../../store/actions'
 
 const LogOut = ({ setIsAuth }) => {
   const dispatch = useDispatch()
@@ -12,6 +12,8 @@ const LogOut = ({ setIsAuth }) => {
     dispatch(resetTotalPrice())
     dispatch(setProductToUpdate({}))
     dispatch(setProductsState([]))
+    dispatch(setCartProducts([]))
+    dispatch(setDrawerState(false))
     localStorage.removeItem('user')
     localStorage.removeItem('availableCart')
     history.push('/signin') 
