@@ -19,5 +19,17 @@ body{
 }
 .category_name {
     font-weight: 600;
+    font-family: 'Scope One', serif;
+}
+.search_div {
+    display: flex;
+    width:80%;
+    justify-content: flex-end;
+    margin-top:30px;
 }
 
+@media screen and (max-width: 958px) {
+    .search_div {
+        width:100%;
+    } 
+  }

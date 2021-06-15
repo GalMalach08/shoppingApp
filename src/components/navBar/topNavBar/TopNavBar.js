@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -53,7 +53,7 @@ const TopNavBar = () => {
     const isOpen = useSelector(state => state.drawer.isOpen)
     const dispatch = useDispatch()
     const cartProducts = useSelector(state => state.products.cartProducts)
-    const navBarRef = useRef()
+ 
 
   // Handle drawer state
   const handleDrawerOpen = () => dispatch(setDrawerState(true))
@@ -74,7 +74,7 @@ const TopNavBar = () => {
                 </Link>
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse className="navbar_collapse" ref={navBarRef}>
+              <Navbar.Collapse className="navbar_collapse" >
                 <Nav className="mr-auto w-100 d-flex justify-content-around">
                  
                             <NavLink to="/products/5" className="nav_link" activeClassName="selected" data-toggle="collapse" data-target=".navbar-collapse.show">
@@ -106,9 +106,6 @@ const TopNavBar = () => {
                                 <ExitToAppIcon/> <span className={ isOpen ? "link_desc_small" :"link_desc"}>Logout</span>
                               </IconButton>
                           </NavLink>
-
-                          <div className={classes.searchLink}> <Search navBarRef={navBarRef}/> </div> 
-              
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

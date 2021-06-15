@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+
+import Search from '../search/Search'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { setIsAdmin, setProductsState, setDrawerState, setNoProducts } from '../../store/actions'
@@ -159,9 +161,10 @@ const useStyles = makeStyles(() => ({
 
   return (
     <>
-          {category && <div className="home_header">
-        <h1 className="category_name">{category}</h1>
-      </div> }
+    <div className="search_div">
+    <Search />
+    </div>
+      {category && <div className="home_header"> <h1 className="category_name">{category}</h1> </div> }
       {firstEntry && products.length !== 0 ? 
       <>
       <NewUserModal stepsEnabled={stepsEnabled} setStepsEnabled={setStepsEnabled}/>

@@ -14,18 +14,18 @@ import ClearIcon from '@material-ui/icons/Clear'
 const useStyles = makeStyles((theme) => ({
     search: {
       display: 'flex',
+      justifyContent: 'space-between',
       position: 'relative',
       borderRadius: theme.shape.borderRadius,
       backgroundColor: 'whitesmoke',
-      marginRight: theme.spacing(2),
-      marginLeft: theme.spacing(2),
-      width: '348px !important',
-      // width: 'auto',
+      marginRight: theme.spacing(1),
+      marginLeft: theme.spacing(1),
       color:'black',
-      margin: '10px 0px',
-      [theme.breakpoints.up('lg')]: {
-        width: 'auto !important',
-      }
+      width:'70%',
+      height:'60px',
+      [theme.breakpoints.down('sm')]: {
+        width:'100%',
+      },
     },
     searchIcon: {
       padding: theme.spacing(0, 2),
@@ -36,26 +36,20 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'right',
     },
     inputRoot: {
-      color: 'inherit',
-      fontSize: '13px'
+      fontSize: '13px',
+      width:'100%'
     },
     inputInput: {
       padding: theme.spacing(1, 1, 1, 0),
       paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
       transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
-      },
     },
     sortBtn: {
       padding:'0px 8px 8px'
     }
-   
-    
   }))
 
-const Search = ({ navBarRef }) => {
+const Search = () => {
     const [searchValue, setSearchValue] = useState('')
     const [buttonDisabled, setButtonDisabled] = useState(false)
     const cartProducts = useSelector(state => state.products.cartProducts)
@@ -68,7 +62,6 @@ const Search = ({ navBarRef }) => {
     }
   
     const findProducts = async () => {
-      navBarRef.current.classList.remove('show')
       setButtonDisabled(true)
       const res = await fetch(`https://shoppingappmalach.herokuapp.com/product/search`, { method: 'POST',
       headers: {
@@ -107,7 +100,7 @@ const Search = ({ navBarRef }) => {
               type='text'
               value={searchValue}
               onChange={e =>  setSearchValue(e.target.value)}
-              placeholder="Search…"
+              placeholder="What do you want to search ? "
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
