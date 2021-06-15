@@ -127,9 +127,9 @@ const ProductCard = ({ product }) => {
           {!isAdmin &&
             <div className="qty">
               <h4 >Quantity</h4>
-              {product.quantity > 1 && <RemoveIcon className={classes.icon} fontSize="small" color="action"   onClick={() => reduceQuantity(product.id)} /> }
+              { product.quantity > 1 && <RemoveIcon className={classes.icon} fontSize="small" color="action"   onClick={() => reduceQuantity(product.id)} /> }
               <span className="number">{product.quantity}</span>
-              <AddIcon className={classes.icon} fontSize="small" color="action"  onClick={() => addQuantity(product.id)} id="stepTwo"/>
+              { product.quantity < 10 && <AddIcon className={classes.icon} fontSize="small" color="action"  onClick={() => addQuantity(product.id)} id="stepTwo"/> }
             </div> }
 
             <div className="price">

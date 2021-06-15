@@ -16,6 +16,7 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 // formik
 import { Formik } from 'formik'
 import * as Yup from 'yup'
+import zxcvbn from "zxcvbn"
 // css
 import './style.css'
 
@@ -69,6 +70,7 @@ const SignUp = ({ setIsAuth }) => {
   const [chosenCity, setChosenCity] = useState('Choose city')
   const [nextDisabled, setNextDisabled] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
+  const [score, setScore] = useState(0)
   const [activeStep, setActiveStep] = useState(0)
   const steps = ['Basic authentication details', 'Advanced authentication details']
   const cityArr = ['Ashdod', 'Beer Sheva', 'Beni Brak', 'Heifa', 'Holon', 'Netaniya', 'Petah Tikva', 'Ramat Gan', 'Rishon Lezion', 'Tel Aviv' ]
@@ -156,15 +158,50 @@ const SignUp = ({ setIsAuth }) => {
         } catch (error) {
             console.error(error)
           }
-      }
-  
+  }
+
+  // Password strengh functions
+  const passwordColor = () => {
+    switch (score) {
+      case 0:  return  '#828282'
+      case 25: return  '#ea1111'
+      case 50: return "#ffad00"
+      case 75: return "lightGreen"
+      case 100: return "#00b500"
+      default: return "none"
+    }
+  }
+
+  const createPasswordLabel = () => {
+    switch (score) {
+    case 25: return  'Very Weak'
+    case 50: return "Weak"
+    case 75: return "Good"
+    case 100: return "Strong"
+    default: return ""
+  }
+}
+
+  const checkPasswordStrength = (password) => {
+    const testResult = zxcvbn(password)
+    console.log(testResult);
+    const score = testResult.score * 100/4
+    setScore(score)
+  }
+
+  const changePasswordColor =  {
+    width:`${score}%`,
+    backgroundColor:`${passwordColor()}`,
+    height:'7px'
+  }
+
     return (
       <Grid container className={classes.root}>
 
         {/* Carusel */}
         <Hidden mdDown>
             <Grid item xs={1} md={2}></Grid>
-            <Grid item xs={2} lg={4} className={classes.image} >
+            <Grid item xs={2} lg={4} className={classes.image}>
               <Carusel />
             </Grid>
          </Hidden>
@@ -190,13 +227,17 @@ const SignUp = ({ setIsAuth }) => {
                 <>
                 <TextField name="username" margin="normal" label="Email" variant="outlined" fullWidth {...props.getFieldProps('username')} {...errorHelper(props,'username')}/>   
                  
-               <TextField  type={showPassword ? "text": "password"} variant="outlined" margin="normal" fullWidth name="password" label="Password" {...props.getFieldProps('password')} {...errorHelper(props,'password')} 
+               <TextField  type={showPassword ? "text": "password"} variant="outlined" margin="normal" fullWidth name="password" label="Password" onKeyUp={e => checkPasswordStrength(e.target.value)} {...props.getFieldProps('password')} {...errorHelper(props,'password')} 
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton onClick={handleClickShowPassword}> {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}  </IconButton>
                       </InputAdornment>
                   )}} />
+                  <div className="progress">
+                    <div className="progress-bar" style={changePasswordColor}></div>
+                  </div>
+                  <p style={{ color: passwordColor(), textAlign:'left', margin:'2px'}}>{createPasswordLabel()}</p>
 
                 <TextField type={showConfirmPassword ? "text": "password"} variant="outlined" margin="normal" fullWidth name="confirmPassword" label="Confirm Password" {...props.getFieldProps('confirmPassword')} {...errorHelper(props,'confirmPassword')} 
                   InputProps={{
