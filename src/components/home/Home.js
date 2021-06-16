@@ -146,7 +146,7 @@ const useStyles = makeStyles(() => ({
     user.admin ? dispatch(setIsAdmin(true)) : dispatch(setIsAdmin(false))
    if (user.newUser) {
     setFirstEntry(true)
-    // delete user['newUser']
+    delete user['newUser']
     localStorage.setItem('user', JSON.stringify(user)) 
    } else if(cartProducts.length > 0)  {
     dispatch(setDrawerState(true))
