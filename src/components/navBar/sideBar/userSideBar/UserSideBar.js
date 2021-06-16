@@ -140,7 +140,7 @@ function UserSideBar() {
           {cartProducts.map(product => (
             <div className="card_item" key={product.id}>
               <div>
-                <Image className="product_img"  cloudName="malachcloud" src={product.image} width="70" height="40" crop="scale" />
+                <Image className="product_img"  cloudName="malachcloud" src={product.image} width="70" height="70" crop="scale" />
               </div>
               <div className="product_info">
                 <h6>{product.name}</h6>

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setProductToUpdate, setCartProducts, addCartProducts, updateTotalPrice, setProductsState, setDrawerState } from '../../store/actions'
 // Material ui
+import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'  
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
@@ -150,7 +151,7 @@ const ProductCard = ({ product }) => {
             </div> }
         </div>
     
-      {!isAdmin && <button className="ip-add-cart" type="button" disabled={addToCartButtonDisabled} onClick={() => addToCart(product.id, product.quantity, product.price)}  id="stepOne"> {product.isInCart ? 'Update' : 'Add to cart'} </button>}
+      {!isAdmin && <Button className="ip-add-cart" type="button" disabled={addToCartButtonDisabled} onClick={() => addToCart(product.id, product.quantity, product.price)}  id="stepOne"> {product.isInCart ? 'Update' : 'Add to cart'} </Button>}
       {isAdmin && <input className="ip-add-cart" type="button" value="Update product" onClick={() => updateProduct(product.id)} /> }
     </div> }	
    </>

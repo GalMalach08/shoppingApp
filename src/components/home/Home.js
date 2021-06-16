@@ -39,7 +39,7 @@ const useStyles = makeStyles(() => ({
   const [stepsEnabled, setStepsEnabled] = useState(false)
   const [initialStep, setInitialStep] = useState(0)
   const [steps, setSteps] = useState([
-      { element:'#stepOne', intro: 'Here you can add new products to the cart 🥳', position: 'left', tooltipClass: 'myTooltipClass' },
+      { element:'#stepOne', intro: 'Here you can add new products to the cart 🥳', position: 'left', highlightClass: 'add_cart_tooltip' },
       { element:'#stepTwo', intro: 'Increase the quantity in order to reach the desired quantity🥳', position: 'left', tooltipClass: 'myTooltipClass' },
       { element:'#stepThree', intro: 'Try to serach for your desired product 🔍', position: 'left', tooltipClass: 'myTooltipClass' },
       { element:'#stepFour', intro: 'navigate between the categories', position: 'left', tooltipClass: 'myTooltipClass' },
@@ -146,7 +146,7 @@ const useStyles = makeStyles(() => ({
     user.admin ? dispatch(setIsAdmin(true)) : dispatch(setIsAdmin(false))
    if (user.newUser) {
     setFirstEntry(true)
-    delete user['newUser']
+    // delete user['newUser']
     localStorage.setItem('user', JSON.stringify(user)) 
    } else if(cartProducts.length > 0)  {
     dispatch(setDrawerState(true))

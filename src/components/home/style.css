@@ -27,9 +27,16 @@ body{
     justify-content: flex-end;
     margin-top:30px;
 }
+.add_cart_tooltip {
+    width: 182.312px !important;
+    height: 50px !important;
+    top: 699px !important;
+    left: 604.844px !important;
+    border-radius:22px !important;
+}
 
 @media screen and (max-width: 958px) {
     .search_div {
         width:100%;
     } 
-  }
+}
